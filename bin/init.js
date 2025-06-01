@@ -107,10 +107,7 @@ const renderPluginDetails = (pluginName) => {
 		'Function Prefix: ': pluginInfo.snakeCaseWithUnderscoreSuffix,
 		'CSS Class Prefix: ': pluginInfo.kebabCaseWithHyphenSuffix,
 		'PHP Variable Prefix: ': pluginInfo.snakeCaseWithUnderscoreSuffix,
-		'Version Constant: ': `${pluginInfo.macroCase}_VERSION`,
-		'Plugin Directory Constant: ': `${pluginInfo.macroCase}_TEMP_DIR`,
-		'Plugin Build Directory Constant: ': `${pluginInfo.macroCase}_BUILD_DIR`,
-		'Plugin Build Directory URI Constant: ': `${pluginInfo.macroCase}_BUILD_URI`,
+		'Plugin Constant: ': `${pluginInfo.macroCase}`,
 	};
 
 	const biggestStringLength = pluginDetails['Plugin Build Directory URI Constant: '].length + 'Plugin Build Directory URI Constant: '.length;
