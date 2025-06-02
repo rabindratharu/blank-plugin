@@ -344,14 +344,12 @@ const getRoot = () => {
  * 1. .git
  * 2. .github
  * 3. bin
- * 4. languages
  */
 const runPluginCleanup = () => {
 	const deleteDirs = [
 		'.git',
 		'.github',
 		'bin',
-		'languages',
 	];
 
 	deleteDirs.forEach((dir) => {
