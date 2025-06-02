@@ -75,14 +75,12 @@ class Assets
         $version         = (! empty($editor_asset['version'])) ? $editor_asset['version'] : filemtime($asset_config_file);
 
         // Theme Gutenberg blocks editor JS.
-        if (is_admin()) {
-            wp_enqueue_script(
-                'blank-plugin-editor',
-                BLANK_PLUGIN_BUILD_PATH_URL . '/editor/index.js',
-                $js_dependencies,
-                $version,
-                true
-            );
-        }
+        wp_enqueue_script(
+            'blank-plugin-editor',
+            BLANK_PLUGIN_BUILD_PATH_URL . '/editor/index.js',
+            $js_dependencies,
+            $version,
+            true
+        );
     }
 }

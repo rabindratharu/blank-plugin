@@ -95,7 +95,7 @@ class Register_Post_Types
                 'publicly_queryable'  => true,
                 'capability_type'     => $args['capability_type'],
                 'rewrite'             => [
-                    'slug'       => 'product-reviews', // Changed to a simpler slug
+                    'slug'       => 'reviews', // Changed to a simpler slug
                     'with_front' => false,
                     'pages'      => true,
                     'feeds'      => true,
