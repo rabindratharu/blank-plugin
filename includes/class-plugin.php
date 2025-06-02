@@ -164,6 +164,8 @@ final class Plugin
         Api_Settings::get_instance();
 
         // Admin
-        Page::get_instance();
+        if (is_admin()) {
+            Page::get_instance();
+        }
     }
 }

@@ -53,6 +53,12 @@ Follow the following steps to add your functionalities to the plugin:
 
 1. Navigate to plugin files `/wp-content/plugins/blank-plugin`, and open the terminal app.
 2. Run the `npm install` command to install npm dependencies, and wait sometimes to complete it.
+3. Now type `Y` for the setup new plugin or type `n` for terminate the process and hit enter key.
+4. Enter plugin name as `Example` and hit enter key.
+5. Now type `Y` to confirm the details and hit enter key.
+6. Type `Y` and hit enter key to cleanup the plugin.
+7. Once everything is done then you can manually rename `/wp-content/plugins/blank-plugin` to `/wp-content/plugins/example` as you enter in step 4 your plugin name.
+
 
 ### 3. Customization and Coding
 

@@ -78,7 +78,7 @@ class Assets
         wp_enqueue_script(
             'blank-plugin-editor',
             BLANK_PLUGIN_BUILD_PATH_URL . '/editor/index.js',
-            $js_dependencies,
+            array_unique(array_merge($js_dependencies, [])),
             $version,
             true
         );

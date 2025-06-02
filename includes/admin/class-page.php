@@ -174,7 +174,7 @@ class Page
         wp_register_script(
             'blank-plugin-admin',
             BLANK_PLUGIN_BUILD_PATH_URL . '/admin/index.js',
-            $js_dependencies,
+            array_unique(array_merge($js_dependencies, [])),
             $version,
             true
         );
