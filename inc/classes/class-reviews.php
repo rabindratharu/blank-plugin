@@ -7,14 +7,14 @@
  * @since 1.0.0
  */
 
-namespace Blank_Plugin;
+namespace Blank_Plugin\Inc;
+
+use Blank_Plugin\Inc\Traits\Singleton;
+use WP_Query;
 
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
-
-use Blank_Plugin\Utils\Singleton;
-use WP_Query;
 
 /**
  * Handles the display of product reviews via shortcode.

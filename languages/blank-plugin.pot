@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blank Plugin 1.0.0\n"
 "Report-Msgid-Bugs-To: https://example.com/support\n"
-"POT-Creation-Date: 2025-06-01T10:36:06.785Z\n"
+"POT-Creation-Date: 2025-06-19T14:41:47.636Z\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +24,19 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/admin/class-page.php:75 includes/utils/class-helper.php:314
+#: inc/classes/class-api-settings.php:111
+msgid "You do not have permission to access this resource."
+msgstr ""
+
+#: inc/classes/class-api-settings.php:156
+msgid "Invalid settings data provided."
+msgstr ""
+
+#: inc/classes/class-api-settings.php:249
+msgid "The settings data could not be sanitized."
+msgstr ""
+
+#: inc/classes/class-dashboard.php:75 inc/classes/class-utils.php:318
 msgid "Blank Plugin Page"
 msgstr ""
 
@@ -32,200 +44,188 @@ msgstr ""
 msgid "Blank Plugin"
 msgstr ""
 
-#: includes/api/class-api-settings.php:107
-msgid "You do not have permission to access this resource."
-msgstr ""
-
-#: includes/api/class-api-settings.php:152
-msgid "Invalid settings data provided."
-msgstr ""
-
-#: includes/api/class-api-settings.php:245
-msgid "The settings data could not be sanitized."
-msgstr ""
-
-#: includes/api/class-rest-endpoint.php:79
-msgid "Search query"
-msgstr ""
-
-#: includes/api/class-rest-endpoint.php:86
-msgid "Comma-separated category IDs"
-msgstr ""
-
-#: includes/api/class-rest-endpoint.php:93
-msgid "Comma-separated tag IDs"
-msgstr ""
-
-#: includes/api/class-rest-endpoint.php:100
-msgid "Page number"
-msgstr ""
-
-#: includes/api/class-rest-endpoint.php:107
-msgid "Posts per page"
-msgstr ""
-
-#: includes/api/class-rest-endpoint.php:114
-msgid "Rating value or range (e.g., 4.5 or 3.0-5.0)"
-msgstr ""
-
-#: includes/class-meta-boxes.php:73
+#: inc/classes/class-meta-boxes.php:73
 msgid "The ID of the product being reviewed"
 msgstr ""
 
-#: includes/class-meta-boxes.php:77
+#: inc/classes/class-meta-boxes.php:77
 msgid "The rating given in the review (1-5)"
 msgstr ""
 
-#: includes/class-meta-boxes.php:81
+#: inc/classes/class-meta-boxes.php:81
 msgid "The name of the reviewer"
 msgstr ""
 
-#: includes/class-meta-boxes.php:140
+#: inc/classes/class-meta-boxes.php:140
 msgid "Review Details"
 msgstr ""
 
-#: includes/class-meta-boxes.php:185
+#: inc/classes/class-meta-boxes.php:185
 msgid "Review Item"
 msgstr ""
 
-#: includes/class-meta-boxes.php:191
+#: inc/classes/class-meta-boxes.php:191
 msgid "Select a Item"
 msgstr ""
 
-#: includes/class-meta-boxes.php:201
+#: inc/classes/class-meta-boxes.php:201
 msgid "No items found"
 msgstr ""
 
-#: includes/class-meta-boxes.php:209
+#: inc/classes/class-meta-boxes.php:209
 msgid "Rating (1-5)"
 msgstr ""
 
-#: includes/class-meta-boxes.php:214
+#: inc/classes/class-meta-boxes.php:214
 msgid "Select Rating"
 msgstr ""
 
-#: includes/class-meta-boxes.php:220
+#: inc/classes/class-meta-boxes.php:220
 msgid "%d Star%s"
 msgstr ""
 
-#: includes/class-meta-boxes.php:233
+#: inc/classes/class-meta-boxes.php:233
 msgid "Reviewer's Name"
 msgstr ""
 
-#: includes/class-plugin.php:98
+#: inc/classes/class-plugin.php:116
 msgid "Cloning is forbidden."
 msgstr ""
 
-#: includes/class-plugin.php:112
+#: inc/classes/class-plugin.php:130
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
-#: includes/class-register-post-types.php:133
+#: inc/classes/class-register-post-types.php:133
 msgid "Add"
 msgstr ""
 
-#: includes/class-register-post-types.php:140
+#: inc/classes/class-register-post-types.php:140
 msgid "Not found"
 msgstr ""
 
-#: includes/class-register-post-types.php:141
+#: inc/classes/class-register-post-types.php:141
 msgid "Not found in Trash"
 msgstr ""
 
-#: includes/class-register-post-types.php:142
+#: inc/classes/class-register-post-types.php:142
 msgid "Featured Image"
 msgstr ""
 
-#: includes/class-register-post-types.php:143
+#: inc/classes/class-register-post-types.php:143
 msgid "Set featured image"
 msgstr ""
 
-#: includes/class-register-post-types.php:144
+#: inc/classes/class-register-post-types.php:144
 msgid "Remove featured image"
 msgstr ""
 
-#: includes/class-register-post-types.php:145
+#: inc/classes/class-register-post-types.php:145
 msgid "Use as featured image"
 msgstr ""
 
-#: includes/class-register-post-types.php:177
-#: includes/class-register-post-types.php:179
+#: inc/classes/class-register-post-types.php:177
+#: inc/classes/class-register-post-types.php:179
 msgid "Reviews"
 msgstr ""
 
-#: includes/class-register-post-types.php:178
+#: inc/classes/class-register-post-types.php:178
 msgid "Review"
 msgstr ""
 
-#: includes/class-reviews.php:120
+#: inc/classes/class-rest-endpoint.php:83
+msgid "Search query"
+msgstr ""
+
+#: inc/classes/class-rest-endpoint.php:90
+msgid "Comma-separated category IDs"
+msgstr ""
+
+#: inc/classes/class-rest-endpoint.php:97
+msgid "Comma-separated tag IDs"
+msgstr ""
+
+#: inc/classes/class-rest-endpoint.php:104
+msgid "Page number"
+msgstr ""
+
+#: inc/classes/class-rest-endpoint.php:111
+msgid "Posts per page"
+msgstr ""
+
+#: inc/classes/class-rest-endpoint.php:118
+msgid "Rating value or range (e.g., 4.5 or 3.0-5.0)"
+msgstr ""
+
+#: inc/classes/class-reviews.php:120
 msgid "No reviews found."
 msgstr ""
 
-#: includes/class-reviews.php:137
+#: inc/classes/class-reviews.php:137
 msgid "Product:"
 msgstr ""
 
-#: includes/class-reviews.php:146
+#: inc/classes/class-reviews.php:146
 msgid "Rating:"
 msgstr ""
 
-#: includes/class-reviews.php:151
+#: inc/classes/class-reviews.php:151
 msgid "Reviewer:"
 msgstr ""
 
-#: includes/class-reviews.php:168
+#: inc/classes/class-reviews.php:168
 msgid "« Previous"
 msgstr ""
 
-#: includes/class-reviews.php:169
+#: inc/classes/class-reviews.php:169
 msgid "Next »"
 msgstr ""
 
-#: includes/utils/class-helper.php:55
+#: inc/classes/class-utils.php:59
 msgid "(no title)"
 msgstr ""
 
-#: includes/utils/class-helper.php:72
+#: inc/classes/class-utils.php:76
 msgid "Default Setting 1"
 msgstr ""
 
-#: includes/utils/class-helper.php:73
+#: inc/classes/class-utils.php:77
 msgid "Default Setting 2"
 msgstr ""
 
-#: includes/utils/class-helper.php:156
+#: inc/classes/class-utils.php:160
 msgid "ABSPATH is not defined."
 msgstr ""
 
-#: includes/utils/class-helper.php:165
+#: inc/classes/class-utils.php:169
 msgid "Failed to initialize the WordPress filesystem."
 msgstr ""
 
-#: includes/utils/class-helper.php:229
+#: inc/classes/class-utils.php:233
 msgid "First text setting."
 msgstr ""
 
-#: includes/utils/class-helper.php:234
+#: inc/classes/class-utils.php:238
 msgid "Second text setting."
 msgstr ""
 
-#: includes/utils/class-helper.php:239
+#: inc/classes/class-utils.php:243
 msgid "First boolean setting."
 msgstr ""
 
-#: includes/utils/class-helper.php:244
+#: inc/classes/class-utils.php:248
 msgid "Second boolean setting."
 msgstr ""
 
-#: includes/utils/class-helper.php:249
+#: inc/classes/class-utils.php:253
 msgid "Option selection setting."
 msgstr ""
 
-#: includes/utils/class-helper.php:256
+#: inc/classes/class-utils.php:260
 msgid "Delete all settings on plugin deactivation."
 msgstr ""
 
-#: includes/utils/class-helper.php:324
+#: inc/classes/class-utils.php:328
 #. translators: %s is the plugin name
 msgid ""
 "Congratulations on choosing the %s for creating your plugin. We recommend "
@@ -234,14 +234,14 @@ msgid ""
 "plugin and how to use them effectively."
 msgstr ""
 
-#: includes/utils/class-helper.php:333
+#: inc/classes/class-utils.php:337
 #. translators: %s is the plugin name
 msgid ""
 "Congratulations! You have successfully installed %s and it is ready for "
 "customization. Feel free to add/edit any files."
 msgstr ""
 
-#: includes/utils/class-helper.php:338
+#: inc/classes/class-utils.php:342
 #. translators: %s is the plugin name
 msgid ""
 "If you have any questions or need assistance, please do not hesitate to "
@@ -250,138 +250,138 @@ msgid ""
 "way using ReactJS, Rest API."
 msgstr ""
 
-#: includes/utils/class-helper.php:344
+#: inc/classes/class-utils.php:348
 msgid "Get started"
 msgstr ""
 
-#: includes/utils/class-helper.php:350
+#: inc/classes/class-utils.php:354
 msgid "Documentation"
 msgstr ""
 
-#: includes/utils/class-helper.php:357
+#: inc/classes/class-utils.php:361
 msgid "Get support"
 msgstr ""
 
-#: includes/utils/class-helper.php:369
+#: inc/classes/class-utils.php:373
 msgid "Visit site"
 msgstr ""
 
-#: includes/utils/class-helper.php:374 includes/utils/class-helper.php:386
+#: inc/classes/class-utils.php:378 inc/classes/class-utils.php:390
 msgid "Get Support"
 msgstr ""
 
-#: includes/utils/class-helper.php:381
+#: inc/classes/class-utils.php:385
 msgid "Contact Information"
 msgstr ""
 
-#: includes/utils/class-helper.php:385
+#: inc/classes/class-utils.php:389
 msgid "Support"
 msgstr ""
 
-#: includes/utils/class-helper.php:392
+#: inc/classes/class-utils.php:396
 msgid "Email"
 msgstr ""
 
-#: includes/utils/class-helper.php:393
+#: inc/classes/class-utils.php:397
 msgid "rabindra.tharu.np@gmail.com"
 msgstr ""
 
-#: includes/utils/class-helper.php:399
+#: inc/classes/class-utils.php:403
 msgid "Location"
 msgstr ""
 
-#: includes/utils/class-helper.php:400
+#: inc/classes/class-utils.php:404
 msgid "Kathmandu, Nepal"
 msgstr ""
 
-#: includes/utils/class-helper.php:424
+#: inc/classes/class-utils.php:428
 msgid "Activate Plugin"
 msgstr ""
 
-#: includes/utils/class-helper.php:428
+#: inc/classes/class-utils.php:432
 msgid "Login settings"
 msgstr ""
 
-#: includes/utils/class-helper.php:432
+#: inc/classes/class-utils.php:436
 msgid "Dashboard settings"
 msgstr ""
 
-#: includes/utils/class-helper.php:438
+#: inc/classes/class-utils.php:442
 msgid "Knowledge base"
 msgstr ""
 
-#: includes/utils/class-helper.php:439
+#: inc/classes/class-utils.php:443
 msgid ""
 "The utilization of this plugin can be facilitated by perusing comprehensive "
 "and well-documented articles."
 msgstr ""
 
-#: includes/utils/class-helper.php:440
+#: inc/classes/class-utils.php:444
 msgid "Visit knowledge base"
 msgstr ""
 
-#: includes/utils/class-helper.php:445
+#: inc/classes/class-utils.php:449
 msgid "Community"
 msgstr ""
 
-#: includes/utils/class-helper.php:448
+#: inc/classes/class-utils.php:452
 #. translators: %s is the plugin name
 msgid ""
 "Our objective is to enhance the customer experience, we invite you to join "
 "our community where you can receive immediate support."
 msgstr ""
 
-#: includes/utils/class-helper.php:451
+#: inc/classes/class-utils.php:455
 msgid "Visit community page"
 msgstr ""
 
-#: includes/utils/class-helper.php:456
+#: inc/classes/class-utils.php:460
 msgid "24x7 support"
 msgstr ""
 
-#: includes/utils/class-helper.php:459
+#: inc/classes/class-utils.php:463
 #. translators: %s is the plugin name
 msgid ""
 "Our support team is available 24/7 to assist you in the event that you "
 "encounter any problems while utilizing this plugin."
 msgstr ""
 
-#: includes/utils/class-helper.php:462
+#: inc/classes/class-utils.php:466
 msgid "Create a support thread"
 msgstr ""
 
-#: includes/utils/class-helper.php:467
+#: inc/classes/class-utils.php:471
 msgid "Video guide"
 msgstr ""
 
-#: includes/utils/class-helper.php:470
+#: inc/classes/class-utils.php:474
 #. translators: %s is the plugin name
 msgid ""
 "The plugin is accompanied by comprehensive video tutorials that provide "
 "practical demonstrations for most customization."
 msgstr ""
 
-#: includes/utils/class-helper.php:473
+#: inc/classes/class-utils.php:477
 msgid "View video guide"
 msgstr ""
 
-#: includes/utils/class-helper.php:479
+#: inc/classes/class-utils.php:483
 msgid "Quick links to settings"
 msgstr ""
 
-#: includes/utils/class-helper.php:483
+#: inc/classes/class-utils.php:487
 msgid "Settings 1"
 msgstr ""
 
-#: includes/utils/class-helper.php:490
+#: inc/classes/class-utils.php:494
 msgid "Settings 2"
 msgstr ""
 
-#: includes/utils/class-helper.php:497
+#: inc/classes/class-utils.php:501
 msgid "Advanced settings"
 msgstr ""
 
-#: includes/utils/class-helper.php:506
+#: inc/classes/class-utils.php:510
 msgid "Changelog"
 msgstr ""
 

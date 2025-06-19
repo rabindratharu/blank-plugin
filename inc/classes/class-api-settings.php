@@ -7,14 +7,18 @@
  * @since 1.0.0
  */
 
-namespace Blank_Plugin\Api;
+namespace Blank_Plugin\Inc;
 
-use Blank_Plugin\Utils\Singleton;
-use Blank_Plugin\Utils\Helper;
+use Blank_Plugin\Inc\Traits\Singleton;
+use Blank_Plugin\Inc\Utils;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+
+if (! defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
  * Class Api_Settings
@@ -120,7 +124,7 @@ class Api_Settings
      */
     public function get_item(WP_REST_Request $request)
     {
-        $saved_options = Helper::get_options();
+        $saved_options = Utils::get_options();
         $schema = $this->get_registered_schema();
 
         $prepared_value = $this->prepare_value($saved_options, $schema);
@@ -161,7 +165,7 @@ class Api_Settings
         }
 
         // Update options
-        Helper::update_options($sanitized_options);
+        Utils::update_options($sanitized_options);
 
         // Return the updated settings
         return $this->get_item($request);
@@ -181,20 +185,20 @@ class Api_Settings
             return $cached_schema;
         }
 
-        // Try to fetch schema from Helper class
-        if (method_exists(Helper::class, 'get_settings_schema')) {
-            $schema = Helper::get_settings_schema();
+        // Try to fetch schema from Utils class
+        if (method_exists(Utils::class, 'get_settings_schema')) {
+            $schema = Utils::get_settings_schema();
         } else {
-            // Fallback schema if Helper::get_settings_schema is not defined
+            // Fallback schema if Utils::get_settings_schema is not defined
             $schema = [
                 'type'       => 'object',
-                'properties' => Helper::get_default_options(),
+                'properties' => Utils::get_default_options(),
             ];
         }
 
         // Ensure properties are defined
         if (!isset($schema['properties']) || !is_array($schema['properties'])) {
-            $schema['properties'] = Helper::get_default_options();
+            $schema['properties'] = Utils::get_default_options();
         }
 
         $cached_schema = $schema;

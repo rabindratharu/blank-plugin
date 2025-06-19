@@ -7,18 +7,22 @@
  * @since 1.0.0
  */
 
-namespace Blank_Plugin\Utils;
+namespace Blank_Plugin\Inc;
 
-use Blank_Plugin\Utils\Singleton;
+use Blank_Plugin\Inc\Traits\Singleton;
+
+if (! defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
- * Helper class.
+ * Utils class.
  *
  * Handles utility functions for the Blank Plugin plugin.
  *
  * @since 1.0.0
  */
-class Helper
+class Utils
 {
     use Singleton;
 

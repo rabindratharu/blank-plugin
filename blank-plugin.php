@@ -33,12 +33,12 @@ define('BLANK_PLUGIN_OPTION_NAME', 'blank-plugin');
 /**
  * Bootstrap the plugin.
  */
-require_once BLANK_PLUGIN_PATH . 'includes/utils/autoloader.php';
+require_once BLANK_PLUGIN_PATH . 'inc/helpers/autoloader.php';
 
-use Blank_Plugin\Plugin;
+use Blank_Plugin\Inc\Plugin;
 
 // Check if the class exists and WordPress environment is valid
-if (class_exists('Blank_Plugin\Plugin')) {
+if (class_exists('Blank_Plugin\Inc\Plugin')) {
     // Instantiate the plugin
     $the_plugin = Plugin::get_instance();
 

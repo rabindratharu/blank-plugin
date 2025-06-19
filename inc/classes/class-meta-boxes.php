@@ -7,14 +7,14 @@
  * @since 1.0.0
  */
 
-namespace Blank_Plugin;
+namespace Blank_Plugin\Inc;
 
-if (!defined('ABSPATH')) {
+use Blank_Plugin\Inc\Traits\Singleton;
+use Blank_Plugin\Inc\Utils;
+
+if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
-
-use Blank_Plugin\Utils\Singleton;
-use Blank_Plugin\Utils\Helper;
 
 /**
  * Register meta boxes class.
@@ -165,7 +165,7 @@ class Meta_Boxes
         $reviewer_name = get_post_meta($post->ID, self::REVIEWER_NAME_FIELD, true);
 
         // Get posts for dropdown
-        $products = Helper::get_posts([
+        $products = Utils::get_posts([
             'post_type' => 'post',
             'posts_per_page' => -1,
             'orderby' => 'title',

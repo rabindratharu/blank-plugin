@@ -7,9 +7,9 @@
  * @since 1.0.0
  */
 
-namespace Blank_Plugin\Api;
+namespace Blank_Plugin\Inc;
 
-use Blank_Plugin\Utils\Singleton;
+use Blank_Plugin\Inc\Traits\Singleton;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -17,6 +17,10 @@ use WP_Error;
 use WP_Query;
 use WP_Post;
 use stdClass;
+
+if (! defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
  * Class REST Endpoint

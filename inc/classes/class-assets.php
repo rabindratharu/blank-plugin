@@ -7,13 +7,13 @@
  * @since 1.0.0
  */
 
-namespace Blank_Plugin;
+namespace Blank_Plugin\Inc;
+
+use Blank_Plugin\Inc\Traits\Singleton;
 
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
-
-use Blank_Plugin\Utils\Singleton;
 
 /**
  * Class Assets

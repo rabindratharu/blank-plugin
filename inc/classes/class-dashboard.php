@@ -1,25 +1,25 @@
 <?php
 
 /**
- * Admin Page.
+ * Admin Dashboard Page.
  *
  * @package blank-plugin
  * @since 1.0.0
  */
 
-namespace Blank_Plugin\Admin;
+namespace Blank_Plugin\Inc;
+
+use Blank_Plugin\Inc\Traits\Singleton;
+use Blank_Plugin\Inc\Utils;
 
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-use Blank_Plugin\Utils\Singleton;
-use Blank_Plugin\Utils\Helper;
-
 /**
- * Class Page
+ * Class Dashboard
  */
-class Page
+class Dashboard
 {
     use Singleton;
 
@@ -39,7 +39,7 @@ class Page
      */
     protected function __construct()
     {
-        $this->menu_info = Helper::white_label()['admin_menu_page'] ?? [];
+        $this->menu_info = Utils::white_label()['admin_menu_page'] ?? [];
         $this->setup_hooks();
     }
 
@@ -191,7 +191,7 @@ class Page
                 'nonce'       => wp_create_nonce('wp_rest'),
                 'store'       => BLANK_PLUGIN_NAME . '-store',
                 'rest_url'    => esc_url_raw(get_rest_url()),
-                'white_label' => Helper::white_label(),
+                'white_label' => Utils::white_label(),
             ]
         );
         wp_localize_script('blank-plugin-admin', 'BlankPluginLocalize', $localize);
@@ -212,9 +212,9 @@ class Page
             BLANK_PLUGIN_OPTION_NAME,
             array(
                 'type'         => 'object',
-                'default'      => Helper::get_default_options(),
+                'default'      => Utils::get_default_options(),
                 'show_in_rest' => array(
-                    'schema' => Helper::get_settings_schema(),
+                    'schema' => Utils::get_settings_schema(),
                 ),
             )
         );
