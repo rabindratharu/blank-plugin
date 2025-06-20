@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Register Meta Boxes
+ * Customizer class
  *
  * @package blank-plugin
  * @since 1.0.0
@@ -19,9 +19,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Register meta boxes class.
- *
- * Handles registration of custom meta boxes for product reviews.
+ * Register custom controls and settings.
  *
  * @since 1.0.0
  */
