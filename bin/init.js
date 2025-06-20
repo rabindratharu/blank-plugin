@@ -189,7 +189,7 @@ const initPlugin = (pluginInfo) => {
 	if (fileContentUpdated || fileNameUpdated) {
 		console.log(info.success('\nYour new plugin is ready to go!'), '✨');
 		// Docs link
-		console.log(info.success('\nFor more information on how to use this plugin, please visit the following link: ' + info.warning('https://github.com/rtCamp/blank-plugin/blob/master/README.md\n')));
+		console.log(info.success('\nFor more information on how to use this plugin, please visit the following link: ' + info.warning('https://github.com/rabindratharu/blank-plugin/blob/master/README.md\n')));
 	} else {
 		console.log(info.warning('\nNo changes were made to your plugin.\n'));
 	}
