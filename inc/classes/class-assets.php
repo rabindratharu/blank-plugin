@@ -41,6 +41,7 @@ class Assets
     {
         add_action('wp_enqueue_scripts', [$this, 'register_styles']);
         add_action('enqueue_block_editor_assets', [$this, 'register_block_editor_assets']);
+        add_action('customize_controls_enqueue_scripts', [$this, 'register_customizer_assets']);
     }
 
     /**
@@ -79,6 +80,38 @@ class Assets
             'blank-plugin-editor',
             BLANK_PLUGIN_BUILD_PATH_URL . '/editor/index.js',
             array_unique(array_merge($js_dependencies, [])),
+            $version,
+            true
+        );
+    }
+
+    /**
+     * Registers and enqueues customizer assets.
+     *
+     * @return void
+     */
+    public function register_customizer_assets()
+    {
+        $asset_config_file = sprintf('%s/customizer/index.asset.php', BLANK_PLUGIN_BUILD_PATH);
+
+        if (! file_exists($asset_config_file)) {
+            return;
+        }
+
+        $editor_asset   = include_once $asset_config_file;
+        $js_dependencies = (! empty($editor_asset['dependencies'])) ? $editor_asset['dependencies'] : [];
+        $version         = (! empty($editor_asset['version'])) ? $editor_asset['version'] : filemtime($asset_config_file);
+
+        // Customizer JS.
+        wp_enqueue_script(
+            'blank-plugin-customizer',
+            BLANK_PLUGIN_BUILD_PATH_URL . '/customizer/index.js',
+            array_unique(array_merge($js_dependencies, [
+                'wp-element',
+                'wp-components',
+                'wp-i18n',
+                'customize-controls'
+            ])),
             $version,
             true
         );
