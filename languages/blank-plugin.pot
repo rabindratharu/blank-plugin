@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blank Plugin 1.0.0\n"
 "Report-Msgid-Bugs-To: https://example.com/support\n"
-"POT-Creation-Date: 2025-06-19T14:41:47.636Z\n"
+"POT-Creation-Date: 2025-06-20T10:10:54.892Z\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,12 +36,24 @@ msgstr ""
 msgid "The settings data could not be sanitized."
 msgstr ""
 
-#: inc/classes/class-dashboard.php:75 inc/classes/class-utils.php:318
-msgid "Blank Plugin Page"
-msgstr ""
-
 #. Plugin Name of the plugin/theme
 msgid "Blank Plugin"
+msgstr ""
+
+#: inc/classes/class-customizer.php:110
+msgid "Default"
+msgstr ""
+
+#: inc/classes/class-customizer.php:120
+msgid "Text Control"
+msgstr ""
+
+#: inc/classes/class-customizer.php:121
+msgid "Description for this control."
+msgstr ""
+
+#: inc/classes/class-dashboard.php:75 inc/classes/class-utils.php:318
+msgid "Blank Plugin Page"
 msgstr ""
 
 #: inc/classes/class-meta-boxes.php:73
@@ -88,11 +100,11 @@ msgstr ""
 msgid "Reviewer's Name"
 msgstr ""
 
-#: inc/classes/class-plugin.php:116
+#: inc/classes/class-plugin.php:117
 msgid "Cloning is forbidden."
 msgstr ""
 
-#: inc/classes/class-plugin.php:130
+#: inc/classes/class-plugin.php:131
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
