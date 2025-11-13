@@ -1,1 +1,7 @@
-<?php // Silence is golden
+<?php
+/**
+ * Silence is golden.
+ *
+ * @package blank-plugin
+ * @since 1.0.0
+ */

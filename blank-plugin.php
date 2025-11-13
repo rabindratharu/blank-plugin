@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name:       Blank Plugin
  * Description:       A WordPress plugin with a custom post type, meta fields, shortcode, and REST API settings.
@@ -15,20 +14,19 @@
  * @package blank-plugin
  */
 
-if (! defined('ABSPATH')) {
-    exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Define plugin constants.
  */
-define('BLANK_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('BLANK_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('BLANK_PLUGIN_BASENAME', plugin_basename(__FILE__));
-define('BLANK_PLUGIN_BUILD_PATH', BLANK_PLUGIN_PATH . 'assets/build');
-define('BLANK_PLUGIN_BUILD_PATH_URL', BLANK_PLUGIN_URL . 'assets/build');
-define('BLANK_PLUGIN_NAME', 'blank-plugin');
-define('BLANK_PLUGIN_OPTION_NAME', 'blank-plugin');
+define( 'BLANK_PLUGIN_VERSION', '1.0.0' );
+define( 'BLANK_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'BLANK_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'BLANK_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'BLANK_PLUGIN_BUILD_PATH', BLANK_PLUGIN_PATH . 'assets/build' );
+define( 'BLANK_PLUGIN_BUILD_PATH_URL', BLANK_PLUGIN_URL . 'assets/build' );
+define( 'BLANK_PLUGIN_NAME', 'blank-plugin' );
+define( 'BLANK_PLUGIN_OPTION_NAME', 'blank-plugin' );
 
 /**
  * Bootstrap the plugin.
@@ -37,12 +35,12 @@ require_once BLANK_PLUGIN_PATH . 'inc/helpers/autoloader.php';
 
 use Blank_Plugin\Inc\Plugin;
 
-// Check if the class exists and WordPress environment is valid
-if (class_exists('Blank_Plugin\Inc\Plugin')) {
-    // Instantiate the plugin
-    $the_plugin = Plugin::get_instance();
+// Check if the class exists and WordPress environment is valid.
+if ( class_exists( 'Blank_Plugin\Inc\Plugin' ) ) {
+	// Instantiate the plugin.
+	$blank_plugin_base = Plugin::get_instance();
 
-    // Register activation and deactivation hooks
-    register_activation_hook(__FILE__, [$the_plugin, 'activate']);
-    register_deactivation_hook(__FILE__, [$the_plugin, 'deactivate']);
+	// Register activation and deactivation hooks.
+	register_activation_hook( __FILE__, array( $blank_plugin_base, 'activate' ) );
+	register_deactivation_hook( __FILE__, array( $blank_plugin_base, 'deactivate' ) );
 }

@@ -1,6 +1,10 @@
 /* *********===================== Setup store ======================********* */
 import { AtrcApis, AtrcStore, AtrcRegisterStore } from 'atrc/build/data';
 
+// Define BlankPluginLocalize if not already defined
+const BlankPluginLocalize = window.BlankPluginLocalize || {};
+
+
 AtrcApis.baseUrl({
     //don't change atrc-global-api-base-url
     key: 'atrc-global-api-base-url',
@@ -11,7 +15,7 @@ AtrcApis.baseUrl({
 /* Settings */
 AtrcApis.register({
     key: 'settings',
-    path: 'blank-plugin/v1/settings',
+    path: BlankPluginLocalize.root_id + '/v1/settings',
     type: 'settings',
 });
 

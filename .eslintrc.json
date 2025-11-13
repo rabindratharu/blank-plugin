@@ -1,0 +1,23 @@
+{
+	"extends": [
+		"plugin:@wordpress/eslint-plugin/recommended"
+	],
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"sourceType": "module"
+	},
+	"globals": {
+		"wp": false,
+		"hm": false,
+		"_": false
+	},
+	"env": {
+		"es6": true,
+		"browser": true,
+		"node": true,
+		"jquery": true
+	}
+}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Singleton trait which implements Singleton pattern in any class in which this trait is used.
  *
@@ -28,12 +27,10 @@
 
 namespace Blank_Plugin\Inc\Traits;
 
-if (! defined('ABSPATH')) {
-	exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
-trait Singleton
-{
+trait Singleton {
+
 
 	/**
 	 * Protected class constructor to prevent direct object creation
@@ -56,15 +53,14 @@ trait Singleton
 	 *
 	 * @return object Singleton instance of the class.
 	 */
-	final public static function get_instance()
-	{
+	final public static function get_instance() {
 
 		/**
 		 * Collection of instance.
 		 *
 		 * @var array
 		 */
-		static $instance = [];
+		static $instance = array();
 
 		/**
 		 * If this trait is implemented in a class which has multiple
@@ -76,17 +72,17 @@ trait Singleton
 		 */
 		$called_class = get_called_class();
 
-		if (! isset($instance[$called_class])) {
+		if ( ! isset( $instance[ $called_class ] ) ) {
 
-			$instance[$called_class] = new $called_class();
+			$instance[ $called_class ] = new $called_class();
 
 			/**
 			 * Dependent items can use the `blank_plugin_singleton_init_{$called_class}` hook to execute code
 			 */
-			do_action(sprintf('blank_plugin_singleton_init_%s', $called_class)); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			do_action( sprintf( 'blank_plugin_singleton_init_%s', $called_class ) ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		}
 
-		return $instance[$called_class];
+		return $instance[ $called_class ];
 	}
 } // End trait

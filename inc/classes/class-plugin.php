@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin.
  *
@@ -11,31 +10,43 @@ namespace Blank_Plugin\Inc;
 
 use Blank_Plugin\Inc\Traits\Singleton;
 
-if (! defined('ABSPATH')) {
-	exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Plugin Main Class
  *
  * @since 1.0.0
  */
-final class Plugin
-{
+final class Plugin {
+
 	use Singleton;
 
 	/**
-	 * Plugin version
+	 * Minimum supported php version.
+	 *
+	 * @since  1.0.0
+	 * @var string
 	 */
-	public const VERSION = '1.0.0';
+	public $php_version = '7.4';
+
+	/**
+	 * Minimum WordPress version.
+	 *
+	 * @since  1.0.0
+	 * @var string
+	 */
+	public $wp_version = '6.1';
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct()
-	{
+	protected function __construct() {
+
+		if ( ! $this->can_boot() ) {
+			return;
+		}
 
 		// Load class.
 		Assets::get_instance();
@@ -47,11 +58,29 @@ final class Plugin
 		Api_Settings::get_instance();
 		Customizer::get_instance();
 
-		if (is_admin()) {
+		if ( is_admin() ) {
 			Dashboard::get_instance();
 		}
+	}
 
-		$this->setup_hooks();
+	/**
+	 * Main condition that checks if plugin parts should continue loading.
+	 *
+	 * @return bool
+	 */
+	private function can_boot() {
+		/**
+		 * Checks
+		 *  - PHP version
+		 *  - WP Version
+		 * If not then return.
+		 */
+		global $wp_version;
+
+		return (
+			version_compare( PHP_VERSION, $this->php_version, '>=' ) &&
+			version_compare( $wp_version, $this->wp_version, '>=' )
+		);
 	}
 
 	/**
@@ -64,16 +93,14 @@ final class Plugin
 	 * @since 1.0.0
 	 * @return void
 	 */
+	public function activate() {
+		$current_version = get_option( 'blank_plugin_version', '0.0.0' );
+		$new_version     = BLANK_PLUGIN_VERSION; // Replace with your plugin version.
 
-	public function activate()
-	{
-		$current_version = get_option('blank_plugin_version', '0.0.0');
-		$new_version = self::VERSION; // Replace with your plugin version
-
-		if (version_compare($current_version, $new_version, '<')) {
-			// Flush rewrite rules on update
+		if ( version_compare( $current_version, $new_version, '<' ) ) {
+			// Flush rewrite rules on update.
 			flush_rewrite_rules();
-			update_option('blank_plugin_version', $new_version);
+			update_option( 'blank_plugin_version', $new_version );
 		}
 	}
 
@@ -86,65 +113,33 @@ final class Plugin
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function deactivate()
-	{
+	public function deactivate() {
 		flush_rewrite_rules();
 	}
 
 	/**
-	 * Setup hooks
+	 * Prevent cloning of the plugin instance.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function setup_hooks()
-	{
-
-		/**
-		 * Actions.
-		 */
-		add_action('init', [$this, 'load_textdomain'], -999);
-	}
-
-	/**
-	 * Prevent cloning of the plugin instance
-	 *
-	 * @since 1.0.0
-	 */
-	public function __clone()
-	{
+	public function __clone() {
 		_doing_it_wrong(
 			__FUNCTION__,
-			esc_html__('Cloning is forbidden.', 'blank-plugin'),
-			self::VERSION
+			esc_html__( 'Cloning is forbidden.', 'blank-plugin' ),
+			esc_html( BLANK_PLUGIN_VERSION )
 		);
 	}
 
 	/**
-	 * Prevent unserializing of the plugin instance
+	 * Prevent unserializing of the plugin instance.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __wakeup()
-	{
+	public function __wakeup() {
 		_doing_it_wrong(
 			__FUNCTION__,
-			esc_html__('Unserializing instances of this class is forbidden.', 'blank-plugin'),
-			self::VERSION
-		);
-	}
-
-	/**
-	 * Load plugin text domain for translations.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function load_textdomain()
-	{
-		load_plugin_textdomain(
-			'blank-plugin',
-			false,
-			dirname(BLANK_PLUGIN_BASENAME) . '/languages'
+			esc_html__( 'Unserializing instances of this class is forbidden.', 'blank-plugin' ),
+			esc_html( BLANK_PLUGIN_VERSION )
 		);
 	}
 }
