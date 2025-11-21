@@ -25,7 +25,7 @@ if ( $user_answer ) {
 
 ob_start();
 ?>
-<div <?php echo wp_kses_post(get_block_wrapper_attributes()); ?>>
+<div <?php echo wp_kses_post( get_block_wrapper_attributes() ); ?>>
 	<div class="quiz-block">
 		<h3><?php echo $question; ?></h3>
 		<?php if ( ! $user_answer && $current_user_id ) : ?>

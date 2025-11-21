@@ -35,19 +35,28 @@ export default function Edit(props) {
 						<TextControl
 							label={__('Question', 'blank-plugin')}
 							value={question}
-							onChange={(value) => setAttributes({ question: value })}
+							onChange={(value) =>
+								setAttributes({ question: value })
+							}
 						/>
 						<TextControl
 							label={__('Correct Answer', 'blank-plugin')}
 							value={correctAnswer}
-							onChange={(value) => setAttributes({ correctAnswer: value })}
+							onChange={(value) =>
+								setAttributes({ correctAnswer: value })
+							}
 						/>
 						{options.map((option, index) => (
 							<div key={index} style={{ marginBottom: '10px' }}>
 								<TextControl
-									label={__('Option', 'blank-plugin') + ` ${index + 1}`}
+									label={
+										__('Option', 'blank-plugin') +
+										` ${index + 1}`
+									}
 									value={option}
-									onChange={(value) => updateOption(index, value)}
+									onChange={(value) =>
+										updateOption(index, value)
+									}
 								/>
 								<Button
 									isDestructive
@@ -68,7 +77,12 @@ export default function Edit(props) {
 					<form>
 						{options.map((option, index) => (
 							<label key={index}>
-								<input type="radio" name="quiz_answer" value={option} disabled />
+								<input
+									type="radio"
+									name="quiz_answer"
+									value={option}
+									disabled
+								/>
 								{option}
 							</label>
 						))}

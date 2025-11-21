@@ -18,9 +18,9 @@ class Sidebar extends Component {
 		const { meta, setMetaFieldValue, posts, postType } = this.props;
 
 		// Don't render if not our post type
-        if (postType !== 'review') {
-            return null;
-        }
+		if (postType !== 'review') {
+			return null;
+		}
 
 		// Prepare product options for SelectControl
 		const productOptions = [
@@ -86,7 +86,7 @@ export default compose(
 			select('core/editor').getCurrentPostAttribute('meta');
 
 		// Fetch the current post type
-		const postType = select("core/editor").getEditedPostAttribute("type");
+		const postType = select('core/editor').getEditedPostAttribute('type');
 		// Fetch all WooCommerce posts
 		const posts =
 			select('core').getEntityRecords('postType', 'post', {
