@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "Example block scaffolded with Create Block tool.",
 	"author": "Rabindra Tharu",
-	"license": "GPL-3.0-or-later",
+	"license": "GPL-2.0-or-later",
 	"main": "Gruntfile.js",
 	"keywords": [
 		"wordpress",
@@ -24,7 +24,7 @@
 		"format:js": "wp-scripts format assets/src/js",
 		"packages-update": "wp-scripts packages-update",
 		"cypress:open": "node_modules/.bin/cypress open",
-		"translate": "wp i18n make-pot ./ languages/blank-plugin.pot --exclude=builds/,node_modules/,cypress/,vendor --ignore-domain --allow-root",
+		"translate": "wp i18n make-pot . languages/blank-plugin.pot --include=\"assets/src/**/*.js,*.php,inc/**/*.php\" --exclude=\"builds/,node_modules/,cypress/,vendor/,tests/,build/\" --ignore-domain --allow-root",
 		"release": "npm run build && npm run translate && grunt build"
 	},
 	"devDependencies": {
@@ -40,6 +40,7 @@
 		"grunt-contrib-clean": "^2.0.1",
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
+		"grunt-wp-i18n": "^1.0.4",
 		"load-grunt-tasks": "^5.1.0",
 		"mini-css-extract-plugin": "^2.9.4",
 		"postcss": "^8.5.6",

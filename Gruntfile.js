@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 		'inc/**',
 		'languages/**',
 		'uninstall.php',
-		'elementify-addons-for-elementor.php',
+		'blank-plugin.php',
 		'LICENSE.txt',
 		'readme.txt',
 		'index.php',
@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 		// Check text domain for WordPress i18n
 		checktextdomain: {
 			options: {
-				text_domain: 'elementify-addons-for-elementor',
+				text_domain: 'blank-plugin',
 				keywords: [
 					'__:1,2d',
 					'_e:1,2d',

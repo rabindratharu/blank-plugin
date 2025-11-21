@@ -15,12 +15,17 @@ class Sidebar extends Component {
 	}
 
 	render() {
-		const { meta, setMetaFieldValue, products } = this.props;
+		const { meta, setMetaFieldValue, posts, postType } = this.props;
+
+		// Don't render if not our post type
+        if (postType !== 'review') {
+            return null;
+        }
 
 		// Prepare product options for SelectControl
 		const productOptions = [
 			{ label: __('Select a Item', 'blank-plugin'), value: '' },
-			...products.map((product) => ({
+			...posts.map((product) => ({
 				label: product.title.rendered,
 				value: product.id,
 			})),
@@ -79,17 +84,21 @@ export default compose(
 		const postMeta = select('core/editor').getEditedPostAttribute('meta');
 		const oldPostMeta =
 			select('core/editor').getCurrentPostAttribute('meta');
-		// Fetch all WooCommerce products
-		const products =
+
+		// Fetch the current post type
+		const postType = select("core/editor").getEditedPostAttribute("type");
+		// Fetch all WooCommerce posts
+		const posts =
 			select('core').getEntityRecords('postType', 'post', {
-				per_page: -1, // Retrieve all products
-				status: 'publish', // Only published products
+				per_page: -1, // Retrieve all posts
+				status: 'publish', // Only published posts
 			}) || [];
 
 		return {
 			meta: { ...oldPostMeta, ...postMeta },
 			oldMeta: oldPostMeta,
-			products,
+			posts,
+			postType,
 		};
 	}),
 	withDispatch((dispatch) => ({

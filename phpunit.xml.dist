@@ -1,24 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <phpunit
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-	backupGlobals="true"
-	bootstrap="./Tests/bootstrap.php"
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
 	convertErrorsToExceptions="true"
 	convertWarningsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertDeprecationsToExceptions="true"
-	beStrictAboutTestsThatDoNotTestAnything="false"
-	colors="true"
-	forceCoversAnnotation="false">
-
+	>
 	<testsuites>
-		<testsuite name="Todo List Plugin">
-			<directory suffix="Test.php">./Tests/</directory>
-			<directory suffix="Test.php">./tests/</directory>
+		<testsuite name="testing">
+			<directory prefix="test-" suffix=".php">./tests/</directory>
+			<exclude>./tests/test-sample.php</exclude>
 		</testsuite>
 	</testsuites>
-
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="false">
 			<file>./blank-plugin.php</file>
@@ -30,5 +25,4 @@
 		<log type="coverage-text" target="php://stdout" showOnlySummary="true"/>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging>
-
 </phpunit>

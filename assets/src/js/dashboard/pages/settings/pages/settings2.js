@@ -32,7 +32,7 @@ const MainContent = () => {
 
 	const {
 		setting3 = false,
-		setting4 = false,
+		quiz = false,
 		setting5 = 'option-1',
 	} = dbSettings;
 
@@ -47,9 +47,9 @@ const MainContent = () => {
 			</AtrcPanelRow>
 			<AtrcPanelRow>
 				<AtrcControlToggle
-					label={__('Check to enable', 'blank-plugin')}
-					checked={setting4}
-					onChange={() => dbUpdateSetting('setting4', !setting4)}
+					label={__('Enable Quiz Block', 'blank-plugin')}
+					checked={quiz}
+					onChange={() => dbUpdateSetting('quiz', !quiz)}
 				/>
 			</AtrcPanelRow>
 			<AtrcPanelRow>

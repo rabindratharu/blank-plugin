@@ -7,12 +7,8 @@
 		"plugin"
 	],
 	"license": "GPL-3.0-or-later",
-	"homepage": "https://rabindratharu.com/elementify-addons",
+	"homepage": "https://rabindratharu.com/blank-plugin",
 	"authors": [
-		{
-			"name": "rabindratharu",
-			"homepage": "https://rabindratharu.com/"
-		},
 		{
 			"name": "Rabindra Tharu",
 			"email": "rabindra.tharu.np@gmail.com",
@@ -94,7 +90,8 @@
 			"@check-cs",
 			"@run-tests",
 			"@check-complete-strict"
-		]
+		],
+		"test": "phpunit"
 	},
 	"scripts-descriptions": {
 		"lint": "Lint PHP files against parse errors.",

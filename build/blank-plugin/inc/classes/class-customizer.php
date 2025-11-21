@@ -1,0 +1,132 @@
+<?php
+/**
+ * Customizer class.
+ *
+ * @package blank-plugin
+ * @since 1.0.0
+ */
+
+namespace Blank_Plugin\Inc;
+
+use Blank_Plugin\Inc\Traits\Singleton;
+use WP_Customize_Manager;
+use Blank_Plugin\Inc\Controls\Text as BlankPluginTextControl;
+
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
+
+/**
+ * Register custom controls and settings.
+ *
+ * @since 1.0.0
+ */
+class Customizer {
+
+	use Singleton;
+
+	/**
+	 * WordPress Customizer Manager instance.
+	 *
+	 * @var WP_Customize_Manager
+	 */
+	private $wp_customize;
+
+	/**
+	 * Private constructor to prevent direct object creation.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		$this->setup_hooks();
+	}
+
+	/**
+	 * Set up action hooks.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	protected function setup_hooks() {
+		add_action( 'customize_register', array( $this, 'customize_register_callback' ) );
+	}
+
+	/**
+	 * Registers custom controls and settings for the WordPress Customizer.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_Customize_Manager $wp_customize WordPress Customizer Manager instance.
+	 *
+	 * @return void
+	 *
+	 * @throws \Exception If control file cannot be read.
+	 */
+	public function customize_register_callback( WP_Customize_Manager $wp_customize ) {
+
+		$controls_dir = trailingslashit( BLANK_PLUGIN_PATH ) . 'inc/controls/';
+
+		if ( ! is_dir( $controls_dir ) || ! is_readable( $controls_dir ) ) {
+			return;
+		}
+
+		$control_files = glob( $controls_dir . 'class-*.php' );
+		if ( empty( $control_files ) ) {
+			return;
+		}
+
+		foreach ( $control_files as $file ) {
+			try {
+
+				// Get class name from file.
+				$base       = sanitize_file_name( basename( $file, '.php' ) );
+				$class_slug = str_replace( 'class-', '', $base );
+				$class_name = str_replace( '-', '_', $class_slug );
+				$full_class = __NAMESPACE__ . '\\Controls\\' . str_replace( '-', '_', ucwords( $class_slug, '-' ) );
+
+				// Include and validate control file.
+				if ( is_readable( $file ) ) {
+					require_once $file;
+				} else {
+					throw new \Exception( 'Unable to read control file: ' . $file );
+				}
+			} catch ( \Exception $e ) {
+				// Log the error but continue processing other files.
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( 'Customizer control loading error: ' . $e->getMessage() );
+				}
+				continue; // Continue with next file.
+			}
+		}
+
+		// Add a section.
+		$wp_customize->add_section(
+			'blank_plugin_controls_section',
+			array(
+				'title'    => esc_html__( 'Blank Plugin', 'blank-plugin' ),
+				'priority' => 120,
+			)
+		);
+
+		// Add setting.
+		$wp_customize->add_setting(
+			'blank_plugin_text_control',
+			array(
+				'default'           => esc_html__( 'Default', 'blank-plugin' ),
+				'transport'         => 'refresh',
+				'sanitize_callback' => 'sanitize_text_field',
+			)
+		);
+
+		// Add control.
+		$wp_customize->add_control(
+			new BlankPluginTextControl(
+				$wp_customize,
+				'blank_plugin_text_control',
+				array(
+					'label'       => esc_html__( 'Text Control', 'blank-plugin' ),
+					'description' => esc_html__( 'Description for this control.', 'blank-plugin' ),
+					'section'     => 'blank_plugin_controls_section',
+				)
+			)
+		);
+	}
+}

@@ -52,7 +52,7 @@ npm -v
 Follow the following steps to add your functionalities to the plugin:
 
 1. Navigate to plugin files `/wp-content/plugins/blank-plugin`, and open the terminal app.
-2. Run the `npm install` command to install npm dependencies, and wait sometimes to complete it.
+2. Run the `composer install & npm install` command to install npm dependencies, and wait sometimes to complete it.
 3. Now type `Y` for the setup new plugin or type `n` for terminate the process and hit enter key.
 4. Enter plugin name as `Example` and hit enter key.
 5. Now type `Y` to confirm the details and hit enter key.
@@ -83,16 +83,16 @@ It's safe to activate the plugin at this point. Activate the plugin through the 
 
 We need to create review item first through dashboard->reviews->add review.
 
-- Add shortcode `[reviews]` on your post or page content area.
-- Use the `<?php echo do_shortcode('[reviews]'); ?>` function in PHP to execute a shortcode within a theme file.
+- Add shortcode `[blank_plugin_reviews]` on your post or page content area.
+- Use the `<?php echo do_shortcode('[blank_plugin_reviews]'); ?>` function in PHP to execute a shortcode within a theme file.
 
 ## REST API Usage
 
 REST API endpoint to fetch reviews allow filtering by rating via query params.
 
-- `https://example.com/wp-json/blank_plugin/v1/reviews` display all reviews posts.
-- `https://example.com/wp-json/blank_plugin/v1/reviews?rating=4` display all reviews posts which have only 4 start rating value.
-- `https://example.com/wp-json/blank_plugin/v1/reviews?rating=3-5` display all reviews posts which have rating values between 3 and 5.
+- `https://example.com/wp-json/blank-plugin/v1/reviews` display all reviews posts.
+- `https://example.com/wp-json/blank-plugin/v1/reviews?rating=4` display all reviews posts which have only 4 start rating value.
+- `https://example.com/wp-json/blank-plugin/v1/reviews?rating=3-5` display all reviews posts which have rating values between 3 and 5.
 
 Replace `https://example.com/` to your local site url or live site url.
 
