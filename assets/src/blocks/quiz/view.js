@@ -25,23 +25,44 @@ document.addEventListener('DOMContentLoaded', function () {
 		form.addEventListener('submit', async function (e) {
 			e.preventDefault();
 
-			const question = form.getAttribute('data-question');
-			const correctAnswer = form.getAttribute('data-correct-answer');
 			const selectedAnswer = form.querySelector(
 				'input[name="quiz_answer"]:checked'
 			)?.value;
 
 			if (!selectedAnswer) {
-				alert('Please select an answer.');
+				// Use a more user-friendly approach than alert
+				const existingError = form.querySelector('.quiz-error');
+				if (existingError) {
+					existingError.remove();
+				}
+
+				const errorElement = document.createElement('div');
+				errorElement.className = 'quiz-error';
+				errorElement.textContent = 'Please select an answer.';
+				errorElement.style.color = 'red';
+				errorElement.style.margin = '10px 0';
+
+				form.prepend(errorElement);
 				return;
 			}
 
+			// Move variable declarations closer to their usage
+			const question = form.getAttribute('data-question');
+			const correctAnswer = form.getAttribute('data-correct-answer');
+
 			try {
-				const response = await fetch(quizBlockData.restUrl, {
+				// Ensure quizBlockData is properly localized/enqueued
+				const { restUrl, nonce } = window.quizBlockData || {};
+
+				if (!restUrl || !nonce) {
+					throw new Error('Quiz configuration not loaded properly.');
+				}
+
+				const response = await fetch(restUrl, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
-						'X-WP-Nonce': quizBlockData.nonce,
+						'X-WP-Nonce': nonce,
 					},
 					body: JSON.stringify({
 						question,
@@ -68,8 +89,19 @@ document.addEventListener('DOMContentLoaded', function () {
 					throw new Error(data.message || 'Submission failed');
 				}
 			} catch (error) {
-				console.error('Error:', error);
-				alert(`An error occurred: ${error.message}`);
+				// Use a more user-friendly approach than console.error and alert
+				const existingError = form.querySelector('.quiz-error');
+				if (existingError) {
+					existingError.remove();
+				}
+
+				const errorElement = document.createElement('div');
+				errorElement.className = 'quiz-error';
+				errorElement.textContent = `An error occurred: ${error.message}`;
+				errorElement.style.color = 'red';
+				errorElement.style.margin = '10px 0';
+
+				form.prepend(errorElement);
 			}
 		});
 	});

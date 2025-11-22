@@ -208,14 +208,7 @@ class Meta_Boxes {
 		</option>
 		<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
 		<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $rating, $i ); ?>>
-			<?php
-				/* translators: 1: Star rating number (1-5), 2: 's' character for plural (empty for 1 star, 's' for 2+ stars) */
-				printf(
-					esc_html__( '%1$d Star%2$s', 'blank-plugin' ),
-					esc_html( $i ),
-					esc_html( $i > 1 ? 's' : '' )
-				);
-			?>
+			<?php echo absint( $i ); ?>
 		</option>
 		<?php endfor; ?>
 	</select>

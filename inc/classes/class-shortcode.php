@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Shortcode class for displaying product reviews.
  *
@@ -64,9 +63,10 @@ class Shortcode {
 	public function render_shortcode( $atts ) {
 		shortcode_atts( array(), $atts, 'reviews' );
 
-		$paged = max( 1, get_query_var( 'paged' ) ?: ( isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1 ) );
-
-		$query_args = array(
+		$query_paged = intval( get_query_var( 'paged' ) );
+		$get_paged   = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$paged       = max( 1, $query_paged ? $query_paged : $get_paged );
+		$query_args  = array(
 			'post_type'      => self::POST_TYPE,
 			'posts_per_page' => self::REVIEWS_PER_PAGE,
 			'post_status'    => 'publish',
@@ -124,7 +124,7 @@ class Shortcode {
 						<p itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
 							<meta itemprop="ratingValue" content="<?php echo esc_attr( $review['rating'] ); ?>">
 							<strong><?php esc_html_e( 'Rating:', 'blank-plugin' ); ?></strong>
-							<?php echo $this->render_star_rating( (int) $review['rating'] ); ?>
+							<?php echo wp_kses_post( $this->render_star_rating( (int) $review['rating'] ) ); ?>
 						</p>
 						<div itemprop="description"><?php the_content(); ?></div>
 						<p>
@@ -141,13 +141,15 @@ class Shortcode {
 				<?php if ( $reviews->max_num_pages > 1 ) : ?>
 					<div class="blank-plugin-pagination">
 						<?php
-						echo paginate_links(
-							array(
-								'total'     => $reviews->max_num_pages,
-								'current'   => $reviews->query_vars['paged'],
-								'format'    => '?paged=%#%',
-								'prev_text' => __( '« Previous', 'blank-plugin' ),
-								'next_text' => __( 'Next »', 'blank-plugin' ),
+						echo wp_kses_post(
+							paginate_links(
+								array(
+									'total'     => $reviews->max_num_pages,
+									'current'   => $reviews->query_vars['paged'],
+									'format'    => '?paged=%#%',
+									'prev_text' => __( '« Previous', 'blank-plugin' ),
+									'next_text' => __( 'Next »', 'blank-plugin' ),
+								)
 							)
 						);
 						?>
@@ -212,7 +214,7 @@ class Shortcode {
 	 * @return string A string of stars and empty stars representing the rating.
 	 */
 	private function render_star_rating( $rating ) {
-		$rating = min( max( $rating, 0 ), 5 ); // Ensure rating is between 0 and 5
+		$rating = min( max( $rating, 0 ), 5 ); // Ensure rating is between 0 and 5.
 		return str_repeat( '★', $rating ) . str_repeat( '☆', 5 - $rating );
 	}
 }

@@ -7,21 +7,50 @@ import { PanelBody, TextControl, Button } from '@wordpress/components';
 
 import './editor.scss';
 
+/**
+ * Edit component for the Quiz block.
+ *
+ * @param {Object} props - Props passed from the Block Editor.
+ * @return {JSX.Element} - The Edit component for the Quiz block.
+ *
+ * @example
+ * <Edit {...props} />
+ */
 export default function Edit(props) {
 	const blockProps = useBlockProps();
 	const { attributes, setAttributes } = props;
 	const { question, options, correctAnswer } = attributes;
 
+	/**
+	 * Adds a new option to the quiz block.
+	 *
+	 * @since 1.0.0
+	 */
 	const addOption = () => {
 		setAttributes({ options: [...options, ''] });
 	};
 
+	/**
+	 * Updates the value of an option in the quiz block.
+	 *
+	 * @param {number} index - The index of the option to update.
+	 * @param {string} value - The new value of the option.
+	 *
+	 * @since 1.0.0
+	 */
 	const updateOption = (index, value) => {
 		const newOptions = [...options];
 		newOptions[index] = value;
 		setAttributes({ options: newOptions });
 	};
 
+	/**
+	 * Removes an option from the quiz block.
+	 *
+	 * @param {number} index - The index of the option to remove.
+	 *
+	 * @since 1.0.0
+	 */
 	const removeOption = (index) => {
 		const newOptions = options.filter((_, i) => i !== index);
 		setAttributes({ options: newOptions });
@@ -76,11 +105,12 @@ export default function Edit(props) {
 					<h3>{question}</h3>
 					<form>
 						{options.map((option, index) => (
-							<label key={index}>
+							<label key={index} htmlFor={`option-${index}`}>
 								<input
 									type="radio"
 									name="quiz_answer"
 									value={option}
+									id={`option-${index}`}
 									disabled
 								/>
 								{option}

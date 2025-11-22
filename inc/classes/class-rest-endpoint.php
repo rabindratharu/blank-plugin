@@ -1,5 +1,4 @@
 <?php
-
 /**
  * REST Endpoint
  *
@@ -59,7 +58,7 @@ class Rest_Endpoint {
 	 * e.g  https://example.com/wp-json/blank-plugin/v1/reviews?rating=4-5
 	 */
 	public function register_routes(): void {
-		// Register search endpoint
+		// Register reviews search endpoint.
 		register_rest_route(
 			self::NAMESPACE . '/' . self::VERSION,
 			'/reviews',
@@ -71,7 +70,7 @@ class Rest_Endpoint {
 			)
 		);
 
-		// Register settings endpoint
+		// Register settings endpoint.
 		register_rest_route(
 			self::NAMESPACE . '/' . self::VERSION,
 			'/settings',
@@ -96,7 +95,7 @@ class Rest_Endpoint {
 				),
 			)
 		);
-		// Register submission endpoint for quiz block
+		// Register submission endpoint for quiz block.
 		register_rest_route(
 			'quiz/' . self::VERSION,
 			'/submit',
@@ -108,7 +107,7 @@ class Rest_Endpoint {
 				),
 			)
 		);
-		// Register results endpoint for quiz block
+		// Register results endpoint for quiz block.
 		register_rest_route(
 			'quiz/' . self::VERSION,
 			'/results',
@@ -120,8 +119,6 @@ class Rest_Endpoint {
 				),
 			)
 		);
-
-		// Register user meta for REST API
 		$this->register_user_meta();
 	}
 
@@ -315,7 +312,7 @@ class Rest_Endpoint {
 		);
 
 		if ( strpos( $rating, '-' ) !== false ) {
-			// Handle range (e.g., '3.0-5.0')
+			// Handle range (e.g., '3.0-5.0').
 			[$min, $max]  = array_map( 'floatval', explode( '-', $rating ) );
 			$meta_query[] = array(
 				'key'     => self::RATING_META_KEY,
@@ -324,7 +321,7 @@ class Rest_Endpoint {
 				'compare' => 'BETWEEN',
 			);
 		} else {
-			// Handle exact match (e.g., '4.5')
+			// Handle exact match (e.g., '4.5')..
 			$meta_query[] = array(
 				'key'     => self::RATING_META_KEY,
 				'value'   => floatval( $rating ),
@@ -362,7 +359,7 @@ class Rest_Endpoint {
 					'content'     => $post->post_content,
 					'date'        => wp_date( get_option( 'date_format' ), get_post_timestamp( $post->ID ) ),
 					'permalink'   => get_permalink( $post->ID ),
-					'thumbnail'   => get_the_post_thumbnail_url( $post->ID, 'thumbnail' ) ?: '',
+					'thumbnail'   => get_the_post_thumbnail_url( $post->ID, 'thumbnail' ) ? get_the_post_thumbnail_url( $post->ID, 'thumbnail' ) : '',
 					'rating'      => is_numeric( $rating ) ? floatval( $rating ) : null,
 					'product'     => $product_title,
 					'product_url' => $product_url,
@@ -453,13 +450,13 @@ class Rest_Endpoint {
 			return false;
 		}
 
-		// Validate single value (e.g., '4.5')
+		// Validate single value (e.g., '4.5').
 		if ( is_numeric( $value ) ) {
 			$rating = floatval( $value );
 			return $rating >= 0 && $rating <= 5;
 		}
 
-		// Validate range (e.g., '3.0-5.0')
+		// Validate range (e.g., '3.0-5.0').
 		if ( strpos( $value, '-' ) !== false ) {
 			[$min, $max] = array_map( 'floatval', explode( '-', $value ) );
 			return $min >= 0 && $max <= 5 && $min <= $max && count( explode( '-', $value ) ) === 2;
@@ -479,12 +476,12 @@ class Rest_Endpoint {
 			return '';
 		}
 
-		// Handle single value
+		// Handle single value..
 		if ( is_numeric( $value ) ) {
 			return sprintf( '%.1f', floatval( $value ) );
 		}
 
-		// Handle range
+		// Handle range.
 		if ( strpos( $value, '-' ) !== false ) {
 			[$min, $max] = array_map( 'floatval', explode( '-', $value ) );
 			return sprintf( '%.1f-%.1f', $min, $max );
@@ -494,13 +491,11 @@ class Rest_Endpoint {
 	}
 
 	/**
-	 * Checks if a given request has access to read and manage settings.
+	 * Checks permissions for getting or updating settings.
 	 *
-	 * @since 1.0.0
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @return bool|WP_Error True if the request has access, WP_Error otherwise.
+	 * @return bool|WP_Error
 	 */
-	public function get_item_permissions_check( WP_REST_Request $request ) {
+	public function get_item_permissions_check() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
@@ -528,13 +523,12 @@ class Rest_Endpoint {
 	}
 
 	/**
-	 * Retrieves the settings.
+	 * Retrieves the plugin settings.
 	 *
 	 * @since 1.0.0
-	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error on failure.
 	 */
-	public function get_setting( WP_REST_Request $request ) {
+	public function get_setting() {
 		$saved_options = Utils::get_options();
 		$schema        = $this->get_registered_schema();
 
@@ -558,7 +552,7 @@ class Rest_Endpoint {
 		$schema = $this->get_registered_schema();
 		$params = $request->get_params();
 
-		// Validate the input against the schema
+		// Validate the input against the schema.
 		$validation = rest_validate_value_from_schema( $params, $schema );
 		if ( is_wp_error( $validation ) ) {
 			return new WP_Error(
@@ -571,16 +565,16 @@ class Rest_Endpoint {
 			);
 		}
 
-		// Sanitize the input
+		// Sanitize the input.
 		$sanitized_options = $this->prepare_value( $params, $schema );
 		if ( is_wp_error( $sanitized_options ) ) {
 			return $sanitized_options;
 		}
 
-		// Update options
+		// Update options.
 		Utils::update_options( $sanitized_options );
 
-		// Return the updated settings
+		// Return the updated settings.
 		return $this->get_setting( $request );
 	}
 
@@ -597,18 +591,18 @@ class Rest_Endpoint {
 			return $cached_schema;
 		}
 
-		// Try to fetch schema from Utils class
+		// Try to fetch schema from Utils class.
 		if ( method_exists( Utils::class, 'get_settings_schema' ) ) {
 			$schema = Utils::get_settings_schema();
 		} else {
-			// Fallback schema if Utils::get_settings_schema is not defined
+			// Fallback schema if Utils::get_settings_schema is not defined.
 			$schema = array(
 				'type'       => 'object',
 				'properties' => Utils::get_default_options(),
 			);
 		}
 
-		// Ensure properties are defined
+		// Ensure properties are defined.
 		if ( ! isset( $schema['properties'] ) || ! is_array( $schema['properties'] ) ) {
 			$schema['properties'] = Utils::get_default_options();
 		}
@@ -637,7 +631,7 @@ class Rest_Endpoint {
 		 * @since 1.0.0
 		 * @param array $schema Item schema data.
 		 */
-		$schema = apply_filters( 'rest_' . self::NAMESPACE . '_item_schema', $schema );
+		$schema = apply_filters( 'blank_plugin_rest_item_schema', $schema );
 
 		return $schema;
 	}
@@ -707,12 +701,12 @@ class Rest_Endpoint {
 	}
 
 	/**
-	 * Retrieves quiz results.
+	 * Retrieves the user's quiz results.
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response|WP_Error
+	 * @since 1.0.0
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
-	public function get_result( WP_REST_Request $request ) {
+	public function get_result() {
 		$user_id = get_current_user_id();
 		global $wpdb;
 
@@ -739,8 +733,8 @@ class Rest_Endpoint {
 			array(
 				'success'     => true,
 				'results'     => $results,
-				'total_score' => (int) get_user_meta( $user_id, self::QUIZ_SCORE_KEY, true ),
-				'timestamp'   => get_user_meta( $user_id, self::QUIZ_TIMESTAMP_KEY, true ) ?: '',
+				'total_score' => get_user_meta( $user_id, self::QUIZ_SCORE_KEY, true ) ? intval( get_user_meta( $user_id, self::QUIZ_SCORE_KEY, true ) ) : 0,
+				'timestamp'   => get_user_meta( $user_id, self::QUIZ_TIMESTAMP_KEY, true ) ? sanitize_text_field( get_user_meta( $user_id, self::QUIZ_TIMESTAMP_KEY, true ) ) : '',
 			)
 		);
 	}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Register Block
  *
@@ -58,63 +57,42 @@ class Register_Block {
 		$saved_options = Utils::get_options();
 
 		if ( ! function_exists( 'register_block_type' ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'Blank Plugin: register_block_type function not found. Ensure WordPress version supports blocks.' );
-			}
 			return;
 		}
 
-		// Ensure the constant is defined
+		// Ensure the constant is defined.
 		if ( ! defined( 'BLANK_PLUGIN_PATH' ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'Blank Plugin: BLANK_PLUGIN_PATH constant is not defined.' );
-			}
 			return;
 		}
 
 		$block_path = BLANK_PLUGIN_PATH . 'assets/build/blocks/';
 		if ( ! is_dir( $block_path ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'Blank Plugin: Block directory not found at ' . $block_path );
-			}
 			return;
 		}
 
 		$block_json_files = glob( $block_path . '*/block.json' );
 		if ( empty( $block_json_files ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'Blank Plugin: No block.json files found in ' . $block_path );
-			}
 			return;
 		}
 
 		foreach ( $block_json_files as $filename ) {
 			if ( ! is_readable( $filename ) ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log( 'Blank Plugin: Cannot read block.json file: ' . $filename );
-				}
 				continue;
 			}
 			$block_folder = dirname( $filename );
 
-			$blockDir  = basename( $block_folder ); // e.g. "quiz"
-			$blockSlug = str_replace( '-', '_', $blockDir ); // "quiz"
+			$block_dir  = basename( $block_folder ); // e.g. "quiz".
+			$block_slug = str_replace( '-', '_', $block_dir ); // "quiz".
 
 			try {
-
-				if ( is_wp_error( $saved_options ) || empty( $saved_options[ $blockSlug ] ) ) {
+				if ( is_wp_error( $saved_options ) || empty( $saved_options[ $block_slug ] ) ) {
 					return;
 				}
 
 				$result = register_block_type( $block_folder );
-
-				if ( false === $result && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log( 'Blank Plugin: Failed to register block from ' . $filename );
-				}
 			} catch ( \Exception $e ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log( 'Blank Plugin: Error registering block from ' . $filename . ': ' . $e->getMessage() );
-				}
+				// Log the error but don't break the execution for other blocks.
+				error_log( sprintf( 'Failed to register block %s: %s', $block_slug, $e->getMessage() ) );
 			}
 		}
 	}
@@ -123,8 +101,8 @@ class Register_Block {
 	 * Register a custom block category.
 	 *
 	 * @since 1.0.0
-	 * @param array                   $categories Existing block categories.
-	 * @param WP_Block_Editor_Context $context Block editor context.
+	 * @param array                    $categories Existing block categories.
+	 * @param \WP_Block_Editor_Context $context Block editor context.
 	 * @return array Modified block categories.
 	 */
 	public function register_block_category( $categories, $context ) {
@@ -134,7 +112,7 @@ class Register_Block {
 			'icon'  => 'book-alt',
 		);
 
-		// Check if the category already exists to avoid duplicates
+		// Check if the category already exists to avoid duplicates.
 		if ( ! in_array( $new_category['slug'], array_column( $categories, 'slug' ), true ) ) {
 			$categories = array_merge( array( $new_category ), $categories );
 		}
@@ -149,7 +127,7 @@ class Register_Block {
 	 * @return void
 	 */
 	public function localize_block_scripts() {
-		// Localize the view script for the quiz block
+		// Localize the view script for the quiz block.
 		$handle = 'blank-plugin-quiz-block-view-script';
 		wp_localize_script(
 			$handle,
@@ -159,9 +137,5 @@ class Register_Block {
 				'nonce'   => wp_create_nonce( 'wp_rest' ),
 			)
 		);
-
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( 'Blank Plugin: Localized script ' . $handle . ' with REST URL and nonce.' );
-		}
 	}
 }

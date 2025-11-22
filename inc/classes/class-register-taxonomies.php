@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Register Custom Taxonomies
  *
@@ -59,28 +58,28 @@ class Register_Taxonomies {
 			return;
 		}
 
-		// Add new taxonomy, make it hierarchical
+		// Add new taxonomy, make it hierarchical.
 		$custom_taxonomy_types = self::taxonomy_args();
 
 		if ( $custom_taxonomy_types ) {
 
 			foreach ( $custom_taxonomy_types as $key => $value ) {
 
-				if ( 'category' == $value['hierarchical'] ) {
+				if ( 'category' === $value['hierarchical'] ) {
 
-					// Add new taxonomy, make it hierarchical (like categories)
+					// Add new taxonomy, make it hierarchical (like categories).
 					$labels = array(
-						'name'              => esc_html_x( $value['general_name'], 'taxonomy general name', 'blank-plugin' ),
-						'singular_name'     => esc_html_x( $value['singular_name'], 'taxonomy singular name', 'blank-plugin' ),
-						'search_items'      => esc_html__( 'Search ' . $value['general_name'], 'blank-plugin' ),
-						'all_items'         => esc_html__( 'All ' . $value['general_name'], 'blank-plugin' ),
-						'parent_item'       => esc_html__( 'Parent ' . $value['singular_name'], 'blank-plugin' ),
-						'parent_item_colon' => esc_html__( 'Parent ' . $value['singular_name'] . ':', 'blank-plugin' ),
-						'edit_item'         => esc_html__( 'Edit ' . $value['singular_name'], 'blank-plugin' ),
-						'update_item'       => esc_html__( 'Update ' . $value['singular_name'], 'blank-plugin' ),
-						'add_new_item'      => esc_html__( 'Add ' . $value['singular_name'], 'blank-plugin' ),
-						'new_item_name'     => esc_html__( 'New ' . $value['singular_name'] . ' Name', 'blank-plugin' ),
-						'menu_name'         => esc_html__( $value['general_name'], 'blank-plugin' ),
+						'name'              => $value['general_name'],
+						'singular_name'     => $value['singular_name'],
+						'search_items'      => esc_html__( 'Search Items', 'blank-plugin' ),
+						'all_items'         => esc_html__( 'All Items', 'blank-plugin' ),
+						'parent_item'       => esc_html__( 'Parent Item', 'blank-plugin' ),
+						'parent_item_colon' => esc_html__( 'Parent Item:', 'blank-plugin' ),
+						'edit_item'         => esc_html__( 'Edit Item', 'blank-plugin' ),
+						'update_item'       => esc_html__( 'Update Item', 'blank-plugin' ),
+						'add_new_item'      => esc_html__( 'Add New Item', 'blank-plugin' ),
+						'new_item_name'     => esc_html__( 'New Item Name', 'blank-plugin' ),
+						'menu_name'         => $value['general_name'],
 					);
 
 					$args = array(
@@ -100,25 +99,25 @@ class Register_Taxonomies {
 					register_taxonomy( $key, $value['post_type'], $args );
 				}
 
-				if ( 'tag' == $value['hierarchical'] ) {
+				if ( 'tag' === $value['hierarchical'] ) {
 
 					$labels = array(
-						'name'                       => esc_html_x( $value['general_name'], 'taxonomy general name', 'blank-plugin' ),
-						'singular_name'              => esc_html_x( $value['singular_name'], 'taxonomy singular name', 'blank-plugin' ),
-						'search_items'               => esc_html__( 'Search ' . $value['general_name'], 'blank-plugin' ),
-						'popular_items'              => esc_html__( 'Popular ' . $value['general_name'], 'blank-plugin' ),
-						'all_items'                  => esc_html__( 'All ' . $value['general_name'], 'blank-plugin' ),
+						'name'                       => $value['general_name'],
+						'singular_name'              => $value['singular_name'],
+						'search_items'               => esc_html__( 'Search Items', 'blank-plugin' ),
+						'popular_items'              => esc_html__( 'Popular Items', 'blank-plugin' ),
+						'all_items'                  => esc_html__( 'All Items', 'blank-plugin' ),
 						'parent_item'                => null,
 						'parent_item_colon'          => null,
-						'edit_item'                  => esc_html__( 'Edit ' . $value['singular_name'], 'blank-plugin' ),
-						'update_item'                => esc_html__( 'Update ' . $value['singular_name'], 'blank-plugin' ),
-						'add_new_item'               => esc_html__( 'Add ' . $value['singular_name'], 'blank-plugin' ),
-						'new_item_name'              => esc_html__( 'New ' . $value['singular_name'] . ' Name', 'blank-plugin' ),
-						'separate_items_with_commas' => esc_html__( 'Separate ' . strtolower( $value['general_name'] ) . ' with commas', 'blank-plugin' ),
-						'add_or_remove_items'        => esc_html__( 'Add or remove ' . strtolower( $value['general_name'] ), 'blank-plugin' ),
-						'choose_from_most_used'      => esc_html__( 'Choose from the most used ' . strtolower( $value['singular_name'] ), 'blank-plugin' ),
-						'not_found'                  => esc_html__( 'No ' . strtolower( $value['singular_name'] ) . ' found.', 'blank-plugin' ),
-						'menu_name'                  => esc_html__( $value['general_name'], 'blank-plugin' ),
+						'edit_item'                  => esc_html__( 'Edit Item', 'blank-plugin' ),
+						'update_item'                => esc_html__( 'Update Item', 'blank-plugin' ),
+						'add_new_item'               => esc_html__( 'Add New Item', 'blank-plugin' ),
+						'new_item_name'              => esc_html__( 'New Item Name', 'blank-plugin' ),
+						'separate_items_with_commas' => esc_html__( 'Separate items with commas', 'blank-plugin' ),
+						'add_or_remove_items'        => esc_html__( 'Add or remove items', 'blank-plugin' ),
+						'choose_from_most_used'      => esc_html__( 'Choose from the most used', 'blank-plugin' ),
+						'not_found'                  => esc_html__( 'No items found.', 'blank-plugin' ),
+						'menu_name'                  => $value['general_name'],
 					);
 
 					$args = array(
