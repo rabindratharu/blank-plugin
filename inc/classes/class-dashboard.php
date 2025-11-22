@@ -178,6 +178,13 @@ class Dashboard {
 			)
 		);
 		wp_localize_script( 'blank-plugin-admin', 'BlankPluginLocalize', $localize );
+
+		// Set translations for the admin script.
+		wp_set_script_translations(
+			'blank-plugin-admin',
+			'blank-plugin',
+			BLANK_PLUGIN_PATH . 'languages'
+		);
 	}
 
 	/**

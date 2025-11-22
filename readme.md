@@ -52,8 +52,8 @@ npm -v
 Follow the following steps to add your functionalities to the plugin:
 
 1. Navigate to plugin files `/wp-content/plugins/blank-plugin`, and open the terminal app.
-2. Run the `composer install & npm install` command to install npm dependencies, and wait sometimes to complete it.
-3. Now type `Y` for the setup new plugin or type `n` for terminate the process and hit enter key.
+2. Run the `composer install & npm install` command to install composer and npm dependencies, and wait sometimes to complete it.
+3. Now run the `npm run init` and type `Y` for the setup new plugin or type `n` for terminate the process and hit enter key.
 4. Enter plugin name as `Example` and hit enter key.
 5. Now type `Y` to confirm the details and hit enter key.
 6. Type `Y` and hit enter key to cleanup the plugin.
@@ -65,7 +65,7 @@ Follow the following steps to add your functionalities to the plugin:
 1. Navigate to plugin files `/wp-content/plugins/blank-plugin`, and open the terminal app.
 2. Run the `npm run start` command to initialize development environment with a live development server.
 3. Run the `npm run build` command to generate optimized production files for the plugin.
-4. Run the `grunt i18n` command to generate and update .pot file for the languages.
+4. Run the `npm run translate` command to generate and update .pot file for the languages.
 5. Run the `grunt release` command to zip files of plugin.
 
 

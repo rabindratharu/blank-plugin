@@ -76,6 +76,12 @@ class Assets {
 			$version,
 			true
 		);
+		// Set translations for the editor script.
+		wp_set_script_translations(
+			'blank-plugin-editor',
+			'blank-plugin',
+			BLANK_PLUGIN_PATH . 'languages'
+		);
 	}
 
 	/**
@@ -111,6 +117,12 @@ class Assets {
 			),
 			$version,
 			true
+		);
+		// Set translations for the customizer script.
+		wp_set_script_translations(
+			'blank-plugin-customizer',
+			'blank-plugin',
+			BLANK_PLUGIN_PATH . 'languages'
 		);
 	}
 }

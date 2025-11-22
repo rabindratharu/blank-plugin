@@ -343,29 +343,63 @@ const getRoot = () => {
  * It will remove following directories and files:
  * 1. .git
  * 2. .github
- * 3. bin
+ * 3. build
+ * 4. bin/init.js
+ * 5. build/*.zip files
  */
 const runPluginCleanup = () => {
 	const deleteDirs = [
 		'.git',
 		'.github',
-		'bin',
+		'build',
 	];
 
+	// Delete directories
 	deleteDirs.forEach((dir) => {
 		const dirPath = path.resolve(getRoot(), dir);
 		try {
 			if (fs.existsSync(dirPath)) {
-				fs.rmdirSync(dirPath, {
-					recursive: true
+				fs.rmSync(dirPath, {
+					recursive: true,
+					force: true
 				});
 				console.log(info.success(`Deleted directory [${info.message(dir)}]`));
 				pluginCleanup = true;
 			}
 		} catch (err) {
-			console.log(info.error(`\nError: ${err}`));
+			console.log(info.error(`\nError deleting directory ${dir}: ${err}`));
 		}
 	});
+
+	// Delete bin/init.js file
+	const initJsPath = path.resolve(getRoot(), 'bin/init.js');
+	try {
+		if (fs.existsSync(initJsPath)) {
+			fs.unlinkSync(initJsPath);
+			console.log(info.success(`Deleted file [${info.message('bin/init.js')}]`));
+			pluginCleanup = true;
+		}
+	} catch (err) {
+		console.log(info.error(`\nError deleting file bin/init.js: ${err}`));
+	}
+
+	// Delete build/*.zip files (if build directory still exists)
+	const buildDir = path.resolve(getRoot(), 'build');
+	try {
+		if (fs.existsSync(buildDir)) {
+			const files = fs.readdirSync(buildDir);
+			files.forEach((file) => {
+				if (file.endsWith('.zip')) {
+					const zipFilePath = path.resolve(buildDir, file);
+					fs.unlinkSync(zipFilePath);
+					console.log(info.success(`Deleted file [${info.message(`build/${file}`)}]`));
+					pluginCleanup = true;
+				}
+			});
+		}
+	} catch (err) {
+		console.log(info.error(`\nError deleting zip files: ${err}`));
+	}
 
 	if (pluginCleanup) {
 		console.log(info.success('\nPlugin cleanup completed!'), '✨');
