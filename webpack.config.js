@@ -119,29 +119,38 @@ const output = {
 // Plugin: remove any `*.asset.php` files that don't have a corresponding JS file.
 class RemoveAssetPhpWithoutJsPlugin {
   apply(compiler) {
-    compiler.hooks.emit.tap('RemoveAssetPhpWithoutJsPlugin', (compilation) => {
-      Object.keys(compilation.assets).forEach((assetName) => {
-        if (!assetName.endsWith('.asset.php')) {
-          return;
-        }
+    compiler.hooks.thisCompilation.tap('RemoveAssetPhpWithoutJsPlugin', (compilation) => {
+      compilation.hooks.processAssets.tap(
+        {
+          name: 'RemoveAssetPhpWithoutJsPlugin',
+          stage: compilation.constructor.PROCESS_ASSETS_STAGE_ADDITIONS,
+        },
+        (assets) => {
+          Object.keys(assets).forEach((assetName) => {
+            if (!assetName.endsWith('.asset.php')) {
+              return;
+            }
 
-        // For block entries, check in the corresponding block folder
-        if (assetName.startsWith('blocks/')) {
-          const blockName = assetName.split('/')[1];
-          const entryName = path.basename(assetName, '.asset.php');
-          const jsPath = `blocks/${blockName}/${entryName}.js`;
-          
-          if (!Object.prototype.hasOwnProperty.call(compilation.assets, jsPath)) {
-            delete compilation.assets[assetName];
-          }
-        } else {
-          // For non-block entries, check in js folder
-          const jsPath = assetName.replace(/\.asset\.php$/, '.js').replace(/^[^\/]+\//, 'js/');
-          if (!Object.prototype.hasOwnProperty.call(compilation.assets, jsPath)) {
-            delete compilation.assets[assetName];
-          }
+            if (assetName.startsWith('blocks/')) {
+              const blockName = assetName.split('/')[1];
+              const entryName = path.basename(assetName, '.asset.php');
+              const jsPath = `blocks/${blockName}/${entryName}.js`;
+
+              if (!assets[jsPath]) {
+                compilation.deleteAsset(assetName);
+              }
+            } else {
+              const jsPath = assetName
+                .replace(/\.asset\.php$/, '.js')
+                .replace(/^[^\/]+\//, 'js/');
+
+              if (!assets[jsPath]) {
+                compilation.deleteAsset(assetName);
+              }
+            }
+          });
         }
-      });
+      );
     });
   }
 }
