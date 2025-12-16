@@ -17,47 +17,47 @@ const fs = require("fs");
 const SRC_DIR = path.resolve(__dirname, "assets/src");
 const BUILD_DIR = path.resolve(__dirname, "assets/build");
 
-// Function to dynamically get block entries
-function getBlockEntries() {
-  const blocksDir = path.join(SRC_DIR, 'blocks');
+// Function to dynamically get component entries
+function getComponentEntries(componentType) {
+  const componentsDir = path.join(SRC_DIR, componentType);
   const entries = {};
   
-  if (!fs.existsSync(blocksDir)) {
+  if (!fs.existsSync(componentsDir)) {
     return entries;
   }
 
-  const blockFolders = fs.readdirSync(blocksDir).filter(item => {
-    return fs.statSync(path.join(blocksDir, item)).isDirectory();
+  const componentFolders = fs.readdirSync(componentsDir).filter(item => {
+    return fs.statSync(path.join(componentsDir, item)).isDirectory();
   });
 
-  blockFolders.forEach(block => {
-    const blockJsPath = path.join(SRC_DIR, 'blocks', block, 'index.js');
-    const blockEditorScssPath = path.join(SRC_DIR, 'blocks', block, 'editor.scss');
-    const blockStyleScssPath = path.join(SRC_DIR, 'blocks', block, 'style.scss');
-    const blockViewJsPath = path.join(SRC_DIR, 'blocks', block, 'view.js');
+  componentFolders.forEach(component => {
+    const componentJsPath = path.join(SRC_DIR, componentType, component, 'index.js');
+    const componentEditorScssPath = path.join(SRC_DIR, componentType, component, 'editor.scss');
+    const componentStyleScssPath = path.join(SRC_DIR, componentType, component, 'style.scss');
+    const componentViewJsPath = path.join(SRC_DIR, componentType, component, 'view.js');
     
-    // Main block entry (JS + editor CSS)
-    const blockEntry = [];
+    // Main component entry (JS + editor CSS)
+    const componentEntry = [];
     
-    if (fs.existsSync(blockJsPath)) {
-      blockEntry.push(blockJsPath);
+    if (fs.existsSync(componentJsPath)) {
+      componentEntry.push(componentJsPath);
     }
-    if (fs.existsSync(blockEditorScssPath)) {
-      blockEntry.push(blockEditorScssPath);
+    if (fs.existsSync(componentEditorScssPath)) {
+      componentEntry.push(componentEditorScssPath);
     }
     
-    if (blockEntry.length > 0) {
-      entries[`blocks/${block}/index`] = blockEntry;
+    if (componentEntry.length > 0) {
+      entries[`${componentType}/${component}/index`] = componentEntry;
     }
     
     // Separate frontend style entry
-    if (fs.existsSync(blockStyleScssPath)) {
-      entries[`blocks/${block}/style`] = [blockStyleScssPath];
+    if (fs.existsSync(componentStyleScssPath)) {
+      entries[`${componentType}/${component}/style`] = [componentStyleScssPath];
     }
     
     // Separate frontend view script entry
-    if (fs.existsSync(blockViewJsPath)) {
-      entries[`blocks/${block}/view`] = [blockViewJsPath];
+    if (fs.existsSync(componentViewJsPath)) {
+      entries[`${componentType}/${component}/view`] = [componentViewJsPath];
     }
   });
 
@@ -69,45 +69,63 @@ const entry = {
   editor: [path.join(SRC_DIR, 'js/editor.js')],
   main: [path.join(SRC_DIR, 'js/main.js')],
   admin: [path.join(SRC_DIR, 'js/admin.js')],
-  ...getBlockEntries(),
+  ...getComponentEntries('blocks'),
+  ...getComponentEntries('components'),
+  // You can add more component types if needed:
+  // ...getComponentEntries('widgets'),
 };
 
 // Custom output function to handle different output paths
 function getOutputPath(chunk) {
-  // Check if this is a block entry
-  if (chunk.name && chunk.name.startsWith('blocks/')) {
-    // Extract just the filename (index.js or style.js)
-    const filename = path.basename(chunk.name) + '.js';
-    return `blocks/${chunk.name.split('/')[1]}/${filename}`;
+  // Check if this is a component entry (blocks, components, widgets, etc.)
+  if (chunk.name && chunk.name.includes('/')) {
+    const parts = chunk.name.split('/');
+    // Only process if it has at least 3 parts (componentType/componentName/filename)
+    if (parts.length >= 3) {
+      const componentType = parts[0];
+      const componentName = parts[1];
+      const filename = path.basename(chunk.name) + '.js';
+      return `${componentType}/${componentName}/${filename}`;
+    }
   }
   
-  // Default output for non-block entries
+  // Default output for non-component entries
   return 'js/[name].js';
 }
 
 // Custom CSS filename function
 function getCssFilename(chunk) {
-  // Check if this is a block entry
-  if (chunk.name && chunk.name.startsWith('blocks/')) {
-    // Extract just the filename (index.css or style.css)
-    const filename = path.basename(chunk.name) + '.css';
-    return `blocks/${chunk.name.split('/')[1]}/${filename}`;
+  // Check if this is a component entry
+  if (chunk.name && chunk.name.includes('/')) {
+    const parts = chunk.name.split('/');
+    // Only process if it has at least 3 parts (componentType/componentName/filename)
+    if (parts.length >= 3) {
+      const componentType = parts[0];
+      const componentName = parts[1];
+      const filename = path.basename(chunk.name) + '.css';
+      return `${componentType}/${componentName}/${filename}`;
+    }
   }
   
-  // Default output for non-block entries
+  // Default output for non-component entries
   return 'css/[name].css';
 }
 
 // Custom RTL CSS filename function
 function getRtlCssFilename(chunk) {
-  // Check if this is a block entry
-  if (chunk.name && chunk.name.startsWith('blocks/')) {
-    // Extract just the filename (index-rtl.css or style-rtl.css)
-    const filename = path.basename(chunk.name) + '-rtl.css';
-    return `blocks/${chunk.name.split('/')[1]}/${filename}`;
+  // Check if this is a component entry
+  if (chunk.name && chunk.name.includes('/')) {
+    const parts = chunk.name.split('/');
+    // Only process if it has at least 3 parts (componentType/componentName/filename)
+    if (parts.length >= 3) {
+      const componentType = parts[0];
+      const componentName = parts[1];
+      const filename = path.basename(chunk.name) + '-rtl.css';
+      return `${componentType}/${componentName}/${filename}`;
+    }
   }
   
-  // Default output for non-block entries
+  // Default output for non-component entries
   return 'css/[name]-rtl.css';
 }
 
@@ -131,13 +149,18 @@ class RemoveAssetPhpWithoutJsPlugin {
               return;
             }
 
-            if (assetName.startsWith('blocks/')) {
-              const blockName = assetName.split('/')[1];
-              const entryName = path.basename(assetName, '.asset.php');
-              const jsPath = `blocks/${blockName}/${entryName}.js`;
+            // Check if this is a component entry
+            if (assetName.includes('/')) {
+              const parts = assetName.split('/');
+              if (parts.length >= 3) {
+                const componentType = parts[0];
+                const componentName = parts[1];
+                const entryName = path.basename(assetName, '.asset.php');
+                const jsPath = `${componentType}/${componentName}/${entryName}.js`;
 
-              if (!assets[jsPath]) {
-                compilation.deleteAsset(assetName);
+                if (!assets[jsPath]) {
+                  compilation.deleteAsset(assetName);
+                }
               }
             } else {
               const jsPath = assetName
@@ -224,12 +247,12 @@ module.exports = (env, argv) => {
         );
       }),
 
-      // Custom CSS extraction with dynamic filenames for blocks
+      // Custom CSS extraction with dynamic filenames for components
       new MiniCssExtractPlugin({
         filename: (chunkData) => getCssFilename(chunkData.chunk),
       }),
 
-      // RTL CSS generation with dynamic filenames for blocks
+      // RTL CSS generation with dynamic filenames for components
       new RtlCssPlugin({
         filename: (chunkData) => getRtlCssFilename(chunkData.chunk),
       }),
@@ -260,12 +283,23 @@ module.exports = (env, argv) => {
             to: BUILD_DIR + '/fonts',
             noErrorOnMissing: true,
           },
+          // Copy block assets (non-JS/CSS files)
           {
             from: SRC_DIR + '/blocks',
             to: BUILD_DIR + '/blocks',
             noErrorOnMissing: true,
             filter: (resourcePath) => {
               // Only copy non-JS/CSS files (PHP, JSON, etc.)
+              const ext = path.extname(resourcePath);
+              return !['.js', '.jsx', '.ts', '.tsx', '.scss', '.css'].includes(ext);
+            },
+          },
+          // You can add more component types for copying if needed:
+          {
+            from: SRC_DIR + '/components',
+            to: BUILD_DIR + '/components',
+            noErrorOnMissing: true,
+            filter: (resourcePath) => {
               const ext = path.extname(resourcePath);
               return !['.js', '.jsx', '.ts', '.tsx', '.scss', '.css'].includes(ext);
             },
