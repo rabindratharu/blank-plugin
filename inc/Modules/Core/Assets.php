@@ -1,0 +1,248 @@
+<?php
+
+/**
+ * Registers plugin assets.
+ *
+ * @package BlankPlugin\Modules\Core
+ */
+
+declare(strict_types=1);
+
+namespace BlankPlugin\Modules\Core;
+
+use BlankPlugin\Contracts\Interfaces\Registrable;
+use BlankPlugin\Modules\Rest\Abstract_REST_Controller;
+use BlankPlugin\Modules\Settings\Admin;
+use BlankPlugin\Modules\Settings\Settings;
+
+/**
+ * Class Assets
+ */
+class Assets implements Registrable
+{
+	/**
+	 * The relative path to the built assets directory.
+	 * No preceding or trailing slashes.
+	 */
+	private const ASSETS_DIR = 'assets/build';
+
+	/**
+	 * Prefix for all asset handles.
+	 */
+	private const PREFIX = 'blank-plugin-';
+
+	/**
+	 * Asset handles
+	 */
+	public const TAILWIND_STYLES_HANDLE   = self::PREFIX . 'tailwind';
+	public const ADMIN_STYLES_HANDLE      = self::PREFIX . 'admin';
+	public const DASHBOARD_SCRIPT_HANDLE   = self::PREFIX . 'dashboard';
+	public const SETTINGS_SCRIPT_HANDLE   = self::PREFIX . 'settings';
+
+	/**
+	 * Localized data for scripts.
+	 *
+	 * @var array<string,mixed>
+	 */
+	private static array $localized_data;
+
+	/**
+	 * Plugin directory path.
+	 *
+	 * @var string
+	 */
+	private string $plugin_dir;
+
+	/**
+	 * Plugin URL.
+	 *
+	 * @var string
+	 */
+	private string $plugin_url;
+
+	/**
+	 * Get localized data for scripts.
+	 *
+	 * @return array<string,mixed>
+	 */
+	public static function get_localized_data(): array
+	{
+		if (empty(self::$localized_data)) {
+			self::$localized_data = [
+				'currentSiteUrl'    => esc_url(home_url('/')),
+				'nonce'             => wp_create_nonce('wp_rest'),
+				'restNamespace'     => Abstract_REST_Controller::NAMESPACE,
+				'restUrl'           => esc_url_raw(get_rest_url()),
+				'setupUrl'          => admin_url('admin.php?page=blank-plugin-settings'),
+				'defaultSettings'   => Settings::get_default_options(),
+				'menuSlug'          => Admin::MENU_SLUG,
+				'subMenuSlug'       => Admin::SCREEN_ID,
+			];
+		}
+
+		return self::$localized_data;
+	}
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		$this->plugin_dir = (string) BLANK_PLUGIN_DIR;
+		$this->plugin_url = (string) BLANK_PLUGIN_URL;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function register_hooks(): void
+	{
+		// Register assets FIRST
+		add_action('admin_enqueue_scripts', [$this, 'register_assets']);
+		add_action('wp_enqueue_scripts', [$this, 'register_assets']);
+
+		// Enqueue order
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_tailwind'], 5);
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_styles'], 20);
+
+		add_filter('script_loader_tag', [$this, 'defer_scripts'], 10, 2);
+	}
+
+	/**
+	 * Register all scripts and styles.
+	 */
+	public function register_assets(): void
+	{
+		$this->register_script(
+			self::DASHBOARD_SCRIPT_HANDLE,
+			'dashboard',
+		);
+		$this->register_script(
+			self::SETTINGS_SCRIPT_HANDLE,
+			'settings',
+		);
+
+		$this->register_style(
+			self::TAILWIND_STYLES_HANDLE,
+			'tailwind',
+			['wp-components'],
+		);
+		$this->register_style(
+			self::ADMIN_STYLES_HANDLE,
+			'admin',
+			['wp-components'],
+		);
+	}
+
+	/**
+	 * Add scripts and styles to the page.
+	 *
+	 * @param string $hook_suffix Admin page name.
+	 */
+	public function enqueue_tailwind($hook_suffix): void
+	{
+		// @todo Only enqueue on BlankPlugin admin pages.
+		wp_enqueue_style(self::TAILWIND_STYLES_HANDLE);
+	}
+	/**
+	 * Add scripts and styles to the page.
+	 *
+	 * @param string $hook_suffix Admin page name.
+	 */
+	public function enqueue_admin_styles($hook_suffix): void
+	{
+		// @todo Only enqueue on BlankPlugin admin pages.
+		wp_enqueue_style(self::ADMIN_STYLES_HANDLE);
+	}
+
+	/**
+	 * Add defer attribute to certain plugin bundle scripts to improve loading performance.
+	 *
+	 * @param string $tag    The script tag.
+	 * @param string $handle The script handle.
+	 * @return string Modified script tag.
+	 */
+	public function defer_scripts(string $tag, string $handle): string
+	{
+		$defer_handles = [
+			self::SETTINGS_SCRIPT_HANDLE,
+		];
+
+		// Bail if we don't need to defer.
+		if (! in_array($handle, $defer_handles, true) || false !== strpos($tag, ' defer')) {
+			return $tag;
+		}
+
+		return str_replace(' src', ' defer src', $tag);
+	}
+
+	/**
+	 * Register a script.
+	 *
+	 * @param string   $handle    Name of the script. Should be unique.
+	 * @param string   $filename  Path of the script relative to js directory.
+	 *                            excluding the .js extension.
+	 * @param string[] $deps      Optional. An array of registered script handles this script depends on. If not set, the dependencies will be inherited from the asset file.
+	 * @param ?string  $ver       Optional. String specifying script version number, if not set, the version will be inherited from the asset file.
+	 * @param bool     $in_footer Optional. Whether to enqueue the script before </body> instead of in the <head>.
+	 */
+	private function register_script(string $handle, string $filename, array $deps = [], $ver = null, bool $in_footer = true): bool
+	{
+		$asset_file = sprintf('%s/js/%s.asset.php', $this->plugin_dir . untrailingslashit(self::ASSETS_DIR), $filename);
+
+		// Bail if the asset file does not exist. Log error and optionally show admin notice.
+		if (! file_exists($asset_file)) {
+			return false;
+		}
+
+		// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- The file is checked for existence above.
+		$asset = require_once $asset_file;
+
+		$version   = $ver ?? ($asset['version'] ?? filemtime($asset_file));
+		$asset_src = sprintf('%s/js/%s.js', $this->plugin_url . untrailingslashit(self::ASSETS_DIR), $filename);
+
+		return wp_register_script(
+			$handle,
+			$asset_src,
+			$deps ?: $asset['dependencies'],
+			$version ?: false,
+			$in_footer
+		);
+	}
+
+	/**
+	 * Register a CSS stylesheet
+	 *
+	 * @param string   $handle    Name of the stylesheet. Should be unique.
+	 * @param string   $filename  Path of the stylesheet relative to the css directory,
+	 *                            excluding the .css extension.
+	 * @param string[] $deps      Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
+	 * @param ?string  $ver       Optional. String specifying style version number, if not set, the version will be inherited from the asset file.
+	 *
+	 * @param string   $media     Optional. The media for which this stylesheet has been defined.
+	 *                            Default 'all'. Accepts media types like 'all', 'print' and 'screen', or media queries like
+	 *                            '(orientation: portrait)' and '(max-width: 640px)'.
+	 */
+	private function register_style(string $handle, string $filename, array $deps = [], $ver = null, string $media = 'all'): bool
+	{
+		// CSS doesnt have a PHP assets file so we infer from the file itself.
+		$asset_file = sprintf('%s/css/%s.css', $this->plugin_dir . untrailingslashit(self::ASSETS_DIR), $filename);
+
+		// Bail if the asset file does not exist.
+		if (! file_exists($asset_file)) {
+			return false;
+		}
+
+		$version   = $ver ?? (string) filemtime($asset_file);
+		$asset_src = sprintf('%s/css/%s.css', $this->plugin_url . untrailingslashit(self::ASSETS_DIR), $filename);
+
+		// Register as a style.
+		return wp_register_style(
+			$handle,
+			$asset_src,
+			$deps,
+			$version ?: false,
+			$media
+		);
+	}
+}

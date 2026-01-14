@@ -1,38 +1,42 @@
 <?php
 /**
- * PHPUnit bootstrap file.
+ * Bootstrap the PHPUnit tests.
  *
- * @package Blank_Plugin
+ * @package BlankPlugin
+ *
+ * phpcs:disable WordPressVIPMinimum.Files.IncludingFile.UsingVariable
  */
 
-$_tests_dir = getenv( 'WP_TESTS_DIR' );
+define( 'TESTS_REPO_ROOT_DIR', dirname( __DIR__ ) );
 
-if ( ! $_tests_dir ) {
-	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
+// Load Composer dependencies if applicable.
+if ( file_exists( TESTS_REPO_ROOT_DIR . '/vendor/autoload.php' ) ) {
+	require_once TESTS_REPO_ROOT_DIR . '/vendor/autoload.php';
 }
 
-// Forward custom PHPUnit Polyfills configuration to PHPUnit bootstrap file.
-$_phpunit_polyfills_path = getenv( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' );
-if ( false !== $_phpunit_polyfills_path ) {
-	define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', $_phpunit_polyfills_path );
-}
-
-if ( ! file_exists( "{$_tests_dir}/includes/functions.php" ) ) {
-	echo "Could not find {$_tests_dir}/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	exit( 1 );
+// Detect where to load the WordPress tests environment from.
+if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+	$_test_root = getenv( 'WP_TESTS_DIR' );
+} elseif ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+	$_test_root = getenv( 'WP_DEVELOP_DIR' ) . '/tests/phpunit';
+} elseif ( false !== getenv( 'WP_PHPUNIT__DIR' ) ) {
+	$_test_root = getenv( 'WP_PHPUNIT__DIR' );
+} elseif ( file_exists( TESTS_REPO_ROOT_DIR . '/../../../../../tests/phpunit/includes/functions.php' ) ) {
+	$_test_root = TESTS_REPO_ROOT_DIR . '/../../../../../tests/phpunit';
+} else { // Fallback.
+	$_test_root = '/tmp/wordpress-tests-lib';
 }
 
 // Give access to tests_add_filter() function.
-require_once "{$_tests_dir}/includes/functions.php";
+require_once $_test_root . '/includes/functions.php';
 
-/**
- * Manually load the plugin being tested.
- */
-function _manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/blank-plugin.php';
-}
-
-tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+// Activate the plugin.
+tests_add_filter(
+	'muplugins_loaded',
+	static function (): void {
+		require_once dirname( __DIR__ ) . '/onesearch.php';
+	}
+);
 
 // Start up the WP testing environment.
-require "{$_tests_dir}/includes/bootstrap.php";
+require $_test_root . '/includes/bootstrap.php';

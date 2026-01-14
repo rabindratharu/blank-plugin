@@ -2,45 +2,62 @@
 /**
  * Plugin Name:       Blank Plugin
  * Description:       A WordPress plugin with a custom post type, meta fields, shortcode, and REST API settings.
- * Version:           1.0.0
- * Requires at least: 6.7
- * Requires PHP:      7.4
  * Author:            Rabindra Tharu
+ * Plugin URI:        https://github.com/rabindratharu
  * Author URI:        https://github.com/rabindratharu
- * License:           GPL-2.0-or-later
+ * License:           GPL2
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       blank-plugin
+ * Domain Path:       /languages
+ * Version:           1.1.0-beta.1
+ * Requires PHP:      8.0
+ * Requires at least: 6.8
+ * Tested up to:      6.9
  *
- * @package blank-plugin
+ * @package BlankPlugin
  */
 
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
+declare (strict_types = 1);
+
+namespace BlankPlugin;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit();
 
 /**
- * Define plugin constants.
+ * Define the plugin constants.
  */
-define( 'BLANK_PLUGIN_VERSION', '1.0.0' );
-define( 'BLANK_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'BLANK_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'BLANK_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'BLANK_PLUGIN_BUILD_PATH', BLANK_PLUGIN_PATH . 'assets/build' );
-define( 'BLANK_PLUGIN_BUILD_PATH_URL', BLANK_PLUGIN_URL . 'assets/build' );
-define( 'BLANK_PLUGIN_NAME', 'blank-plugin' );
-define( 'BLANK_PLUGIN_OPTION_NAME', 'blank-plugin' );
+function constants(): void {
+	/**
+	 * Version of the plugin.
+	 */
+	define( 'BLANK_PLUGIN_VERSION', '1.1.0-beta.1' );
 
-/**
- * Bootstrap the plugin.
- */
-require_once BLANK_PLUGIN_PATH . 'inc/helpers/autoloader.php';
+	/**
+	 * Root path to the plugin directory.
+	 */
+	define( 'BLANK_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-use Blank_Plugin\Inc\Plugin;
+	/**
+	 * Root URL to the plugin directory.
+	 */
+	define( 'BLANK_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-// Check if the class exists and WordPress environment is valid.
-if ( class_exists( 'Blank_Plugin\Inc\Plugin' ) ) {
-	// Instantiate the plugin.
-	$blank_plugin_base = Plugin::get_instance();
+	/**
+	 * The plugin basename.
+	 */
+	define( 'BLANK_PLUGIN_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+}
 
-	// Register activation and deactivation hooks.
-	register_activation_hook( __FILE__, array( $blank_plugin_base, 'activate' ) );
-	register_deactivation_hook( __FILE__, array( $blank_plugin_base, 'deactivate' ) );
+constants();
+
+// If autoloader failed, we cannot proceed.
+require_once __DIR__ . '/inc/Autoloader.php';
+if ( ! \BlankPlugin\Autoloader::autoload() ) {
+	return;
+}
+
+// Load the plugin.
+if ( class_exists( '\BlankPlugin\Main' ) ) {
+	\BlankPlugin\Main::instance();
 }

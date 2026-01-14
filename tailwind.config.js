@@ -1,11 +1,12 @@
 module.exports = {
     content: [
-        './assets/src/js/**/*.{js,jsx,ts,tsx}',
+        './assets/src/**/*.{js,jsx,ts,tsx}',
         './inc/**/*.php',
         './templates/**/*.php', // if using templates
         './*.php',              // root files like index.php
         './assets/**/*.html',   // if using HTML templates
     ],
+	important: '.blank-plugin',
     theme: {
         extend: {
             aspectRatio: {

@@ -1,5 +1,10 @@
-node_modules/
-vendor/
-build/
-assets/build/
-assets/src/library/**
+## Ignore build and dependency directories
+/build
+/node_modules
+/tests
+/vendor
+
+## Allow only CSS and SCSS files
+*.*
+!*.css
+!*.scss

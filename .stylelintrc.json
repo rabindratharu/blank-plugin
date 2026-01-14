@@ -1,16 +1,10 @@
 {
-	"extends": [
-	  "@wordpress/stylelint-config/scss"
+	"extends": "@wordpress/stylelint-config/scss",
+	"ignoreFiles": [
+		"**/*.js",
+		"**/*.json",
+		"**/*.php",
+		"**/*.svg"
 	],
-	"customSyntax": "postcss-scss",
-	"rules": {
-	  "selector-class-pattern": null,
-	  "no-descending-specificity": null,
-	  "font-weight-notation": null,
-	  "rule-empty-line-before": null,
-	  "at-rule-empty-line-before": null,
-	  "value-keyword-case": null,
-	  "at-rule-no-unknown": null,
-	  "scss/at-rule-no-unknown": true
-	}
+	"rules": {}
 }

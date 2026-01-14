@@ -1,0 +1,434 @@
+/* stylelint-disable selector-class-pattern */
+/* stylelint-disable selector-id-pattern */
+
+#toplevel_page_onesearch + .wp-menu-separator {
+	display: none;
+}
+
+.toplevel_page_onesearch {
+
+	.blank-plugin-site-checkbox {
+		pointer-events: none;
+	}
+
+	.blank-plugin-heading {
+		display: none;
+	}
+
+	&:has(.blank-plugin-add-plugin-screen) {
+
+		.blank-plugin-heading {
+			display: inline-block;
+		}
+	}
+
+	.components-modal-header-heading {
+		font-size: 1.25rem;
+		margin-top: 1rem;
+	}
+}
+
+#blank-plugin-search-settings,
+#blank-plugin-settings-page {
+
+	.components-snackbar {
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		z-index: 1000000;
+	}
+
+	.components-notice-content {
+		white-space: pre-line !important;
+	}
+
+	.blank-plugin-success-notice {
+		background-color: #16a32d;
+		color: #fff;
+	}
+
+	.blank-plugin-error-notice {
+		background-color: #e11d1d;
+		color: #fff;
+	}
+
+}
+
+body {
+
+	.wp-first-item:has(.blank-plugin-plugin-manager-page) {
+		display: none;
+	}
+
+	&.blank-plugin-governing-site-site {
+
+		.wp-first-item:has(.blank-plugin-plugin-manager-page) {
+			display: inline-block;
+		}
+	}
+}
+
+[id="toplevel_page_onesearch"] {
+
+	.dashicons-admin-generic::before {
+		content: url(../images/logo.svg) !important;
+	}
+}
+
+// Multi-select checkbox
+.msc {
+	max-width: 70%;
+	display: grid;
+}
+
+.msc-label {
+	font-size: 12px;
+	color: #1e1e1e;
+}
+
+.msc-control {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 45px;
+	padding: 6px 8px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	cursor: pointer;
+	text-align: left;
+	gap: 8px;
+}
+
+.msc-control:disabled,
+.msc--disabled {
+	cursor: not-allowed;
+}
+
+.msc-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	flex: 1;
+}
+
+.msc-placeholder {
+	color: #8c8f94;
+}
+
+.msc-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	border: 1px solid #d0d5dd;
+	background: #f8fafc;
+	border-radius: 999px;
+	padding: 2px 6px;
+}
+
+.msc-chip-label {
+	font-size: 12px;
+}
+
+.msc-chip-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	background: transparent;
+	padding: 0;
+	cursor: pointer;
+}
+
+/* Dropdown */
+.msc-menu {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	max-height: 220px;
+	overflow-y: auto;
+}
+
+.msc-list {
+	list-style: none;
+	margin: 0;
+	padding: 4px 0;
+}
+
+.msc-row {
+	margin: 0;
+}
+
+.msc-row-label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	cursor: pointer;
+	user-select: none;
+
+	/* No borders, no boxes */
+	background: transparent;
+}
+
+.msc-row-label:hover {
+	background: #f6f7f7;
+}
+
+.msc-row-text {
+	line-height: 1.4;
+}
+
+.blank-plugin-chip {
+	display: inline-block;
+	padding: 2px 4px;
+	background-color: #007cba;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 500;
+	border-radius: 8px;
+	margin-left: 8px;
+}
+
+/* Main container */
+.blank-plugin-card {
+	margin-top: 30px;
+}
+
+/* Header styling */
+.blank-plugin-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.blank-plugin-controls {
+	display: flex;
+	gap: 10px;
+	margin-top: 12px;
+	// justify-content: space-between;
+}
+
+/* Site cards */
+.blank-plugin-site-card {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 16px;
+	margin-bottom: 16px;
+}
+
+.blank-plugin-site-governing {
+	background-color: #f8f9fa;
+}
+
+.blank-plugin-site-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 12px;
+}
+
+.blank-plugin-site-info {
+	flex: 1;
+	margin-right: 16px;
+}
+
+.blank-plugin-site-name {
+	margin: 0 0 4px 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.blank-plugin-site-url {
+	margin: 0;
+	font-size: 13px;
+	color: #666;
+}
+
+.blank-plugin-site-status {
+	margin: 4px 0 0 0;
+	font-size: 12px;
+	color: #999;
+}
+
+/* Searchable sites */
+.blank-plugin-searchable-sites {
+	margin-left: 14px;
+	padding-top: 12px;
+	border-top: 1px solid #eee;
+}
+
+.blank-plugin-searchable-title {
+	margin: 0 0 12px 0;
+	font-size: 14px;
+}
+
+.blank-plugin-searchable-item {
+	margin-bottom: 8px;
+	padding: 12px;
+	background-color: #f9f9f9;
+	border-radius: 4px;
+	border: 1px solid #e0e0e0;
+}
+
+.blank-plugin-current-site {
+	border-color: #007cba;
+}
+
+.blank-plugin-searchable-name {
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 2px;
+}
+
+.blank-plugin-searchable-url {
+	font-size: 12px;
+	color: #666;
+}
+
+.blank-plugin-current-indicator {
+	margin-left: 8px;
+	font-size: 11px;
+	color: #007cba;
+	font-weight: 500;
+}
+
+.blank-plugin-notice {
+	margin-bottom: 16px;
+}
+
+/* Main entities card */
+.blank-plugin-entities-card {
+	margin-top: 30px;
+}
+
+.blank-plugin-entities-card-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	color: #666;
+}
+
+.blank-plugin-entities-inner-card {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: flex-end;
+	gap: 6px;
+}
+
+.blank-plugin-entities-info {
+	width: 100%;
+	text-align: right;
+	padding: 0;
+	margin: 0;
+}
+
+.blank-plugin-title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+	width: 30%;
+}
+
+.blank-plugin-entities-controls {
+	display: flex;
+	gap: 8px;
+}
+
+/* Individual sites */
+.blank-plugin-entity-site {
+	padding: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #e0e0e0;
+	border-radius: 6px;
+	background: #fff;
+}
+
+.blank-plugin-entity-site-header {
+	margin-bottom: 16px;
+}
+
+.blank-plugin-entity-site-name {
+	margin: 0 0 4px 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.blank-plugin-entity-site-url {
+	margin: 0 0 2px 0;
+	font-size: 13px;
+	color: #666;
+	font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.blank-plugin-entity-site-domain {
+	margin: 0;
+	font-size: 12px;
+	color: #999;
+	font-style: italic;
+}
+
+.blank-plugin-entity-selector {
+	max-width: 100%;
+}
+
+/* MultiSelectChips container adjustments */
+.blank-plugin-entity-selector .blank-plugin-multiselect {
+	max-width: 100%;
+	width: 100%;
+}
+
+/* Site without entities styling */
+.blank-plugin-site-no-entities {
+	opacity: 0.7;
+	border-color: #f0b849;
+}
+
+.blank-plugin-site-no-entities .blank-plugin-site-toggle {
+	opacity: 0.5;
+}
+
+.blank-plugin-site-warning {
+	margin: 4px 0 0 0;
+	font-size: 12px;
+	color: #d63638;
+	font-weight: 500;
+}
+
+.blank-plugin-site-warning::before {
+	margin-right: 4px;
+}
+
+.blank-plugin-governing-site-card {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+	gap: 12px;
+}
+
+.blank-plugin-site-modal-text {
+	margin-bottom: 12px;
+}
+
+.blank-plugin-regenerate-key-button {
+	margin-left: 10px;
+}
+
+.blank-plugin-public-key-card {
+	margin: 1rem 0;
+}
+
+.wp-list-table td {
+	vertical-align: middle;
+}
+
+.blank-plugin-button-group {
+	margin-right: 8px;
+}
+
+
